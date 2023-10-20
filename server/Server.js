@@ -15,14 +15,43 @@ const api = axios.create({
 
 const keys = ["created", "uid", "dtend", "transp", "x-apple-travel-advisory-behavior", "summary", "last-modified", "dtstamp", "dtstart", "location", "sequence"]
 
+function isSameDayAndMonthYear(date1, date2) {
+    return date1?.getDate() === date2?.getDate() && date1?.getMonth() === date2?.getMonth() && date1?.getFullYear() === date2?.getFullYear();
+}
+
 const parseICSFile = async (data) => {
     try {
         const parsedData = ical.parseString(data);
-        parsedData.events.forEach((event) => {
-            keys.forEach((key) => {
-                console.log(key, event[key])
-            })    
-        })
+        const targetDate = new Date(); 
+        const oneWeek = 7
+        // Set the time of the target date to midnight
+        targetDate.setHours(0, 0, 0, 0);
+        targetDate.setDate(targetDate.getDate()-5);
+        // Filter events for the target date
+        const eventsForToday = parsedData.events.filter((event) => {
+            const eventStart = new Date(event.dtstart.value);
+            const eventEnd = new Date(event.dtend.value);
+            if(event.recurrenceRule && event.recurrenceRule?.options?.until){
+                const eventUntil = new Date(event.recurrenceRule.options.until)
+                const currentEventStart = new Date(eventStart)
+                while (currentEventStart <= eventUntil){
+                    if (isSameDayAndMonthYear(currentEventStart, targetDate)){
+                        event.dtstart.value = eventStart.toISOString()
+                        event.dtend.value = eventEnd.toISOString()
+                        return true
+                    }
+                    currentEventStart.setDate(currentEventStart.getDate() + oneWeek);
+                }
+                return isSameDayAndMonthYear(eventStart, targetDate)
+            }            
+            return isSameDayAndMonthYear(eventStart, targetDate)
+        });
+        
+        eventsForToday.forEach((event) => {
+            console.log(event.summary)
+            console.log(event.location)
+        });
+
     } catch (error) {
         console.error('Error while parsing the ICS file:', error);
     }

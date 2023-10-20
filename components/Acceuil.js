@@ -6,7 +6,7 @@ import { WebView } from 'react-native-webview';
 export default function Acceuil(){
 
     const [niveau,setNiveau] = useState('M1')
-    const [parcours,setparcours] = useState('IMA')
+    const [parcours,setparcours] = useState('DAC')
 
     useEffect(()=>{
         async function getCalendar(){
