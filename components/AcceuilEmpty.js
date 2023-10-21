@@ -2,11 +2,21 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import LottieView from "lottie-react-native";
 import { containerStyle, textStyle } from '../styles/mainstyle';
-import { useContext } from 'react';
+import { useEffect,useContext,useRef } from 'react';
 import { UserData } from '../context/contextData';
 
 export default function AcceuilEmpty(){
     const {parcours,niveau} = useContext(UserData)
+    const lottieRef = useRef(null)
+
+    useEffect(() => {
+        if (lottieRef.current) {
+          setTimeout(() => {
+            lottieRef.current?.reset();
+            lottieRef.current?.play();
+          }, 100);
+        }
+      }, [lottieRef.current]);
 
     return (
         <View style={containerStyle.emptyContainer}>
@@ -19,10 +29,12 @@ export default function AcceuilEmpty(){
             </View>
             <View>
                 <LottieView 
+                    ref={lottieRef}
                     source={require('../images/no_result.json')} 
                     autoPlay 
                     loop 
-                    style={{width:350,height:350,marginBottom:"20%"}}
+                    style={{width:350,height:350,marginBottom:"5%"}}
+                    renderMode={"SOFTWARE"}
                 />
             </View>
         </View>

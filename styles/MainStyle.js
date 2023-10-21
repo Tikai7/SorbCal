@@ -27,16 +27,22 @@ export const headerStyle = StyleSheet.create({
 });
 
 export const buttonStyle = StyleSheet.create({
-	button: {
-		backgroundColor: colorStyle.primary,
-		padding: 10,
-		borderRadius: 5,
+	drawerButton : {
+		width:"100%",
+		height: 60,
+		backgroundColor: colorStyle.white,
+		alignItems: 'flex-start',
+		justifyContent: 'center',
+		paddingLeft:"7%",
 	},
-	buttonText: {
-		color: colorStyle.white,
-		fontSize: 16,
-		fontWeight: 'bold',
-	},
+	drawerHeaderButton : {
+		width:"45%",
+		height: 40,
+		backgroundColor: colorStyle.white,
+		borderRadius:10,
+		alignItems: 'center',
+		justifyContent: 'center',
+	}
 });
 
 export const textStyle = StyleSheet.create({
@@ -64,7 +70,13 @@ export const textStyle = StyleSheet.create({
 		fontWeight: 'bold',
 		color: colorStyle.secondary,
 		textAlign: 'center',
-	}
+	},
+	drawerText:{
+		fontWeight: "600",
+		fontSize: fontStyle.medium,
+		color: colorStyle.primary,
+		textAlign: 'left',
+	},
 });	
 
 export const containerStyle = StyleSheet.create({
@@ -82,7 +94,7 @@ export const containerStyle = StyleSheet.create({
 		justifyContent: 'center',
 	},
 	textContainer : {
-		marginBottom:"20%",
+		marginBottom:"15%",
 		alignItems:"center",
 		justifyContent:"center",
 		backgroundColor:colorStyle.tertiary,
@@ -98,4 +110,35 @@ export const containerStyle = StyleSheet.create({
 		paddingVertical:"2%",
 		borderRadius:10,
 	},
+	lineContainer:{
+		width:"100%",
+		height:1,
+		backgroundColor:colorStyle.tertiary,
+	},
+	scrollViewContainer:{
+		backgroundColor: colorStyle.white,
+		marginBottom:"20%",
+	},
+	safeContainer:{
+		flex: 1,
+		flexDirection:"column",
+		backgroundColor: colorStyle.white,
+	},
+	drawerHeaderContainer:{
+		paddingTop:"25%",
+		alignItems:"center",
+		justifyContent:"center",
+		backgroundColor: colorStyle.primary,
+		paddingHorizontal:"5%",
+		paddingVertical:"2%",
+		borderRadius:15,
+		marginBottom:"10%",
+	},
+	drawerButtonContainer:{
+		width:"100%",
+		flexDirection:"row",
+		paddingBottom:"5%",
+		justifyContent:"space-between",
+		paddingHorizontal:"5%"
+	}
 });
