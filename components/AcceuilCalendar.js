@@ -28,11 +28,13 @@ export default function AcceuilCalendar({calendar}){
 
 
     const convertDateToString = (date) => {
+        avoidData = ["8","9"]
+
         if (!(date instanceof Date)) 
             date = new Date(date)
         stringDate = date.getUTCHours() + "h" + date.getMinutes()
 
-        if (stringDate.length < 5 && stringDate[0] != "0") 
+        if (stringDate.length < 5 && avoidData.includes(stringDate[0])) 
             stringDate = "0"+stringDate
         else if (stringDate.length < 5)
             stringDate = stringDate + "0"

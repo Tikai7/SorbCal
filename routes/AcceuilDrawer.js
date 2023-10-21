@@ -21,7 +21,19 @@ export default function AcceuilDrawer() {
 
     useEffect(()=>{
         async function getCalendar(){
-            const path = `${parcours}/${niveau}_${parcours}/`
+            let path = `${parcours}/${niveau}_${parcours}/`            
+            
+            if (parcours == "STL-INSTA"){
+                path = "STL/M2_STL-INSTA/"
+                setNiveau("M2")
+            }
+            else if (parcours == "DIGITAL")
+                path =`RES/${niveau}_RES-EIT-Digital/`;
+            else if (parcours == "RES-ESIEE-IT")
+                path =`RES/${niveau}_RES-ITESCIA/`;
+            else if (parcours == "MSI")
+                path =`SFPN/${niveau}_SFPN-AFTI/`;
+            
             clearTimeout(tm)
             setLoading(true)
             const [data,state] = await getData(path)

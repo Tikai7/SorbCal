@@ -4,7 +4,7 @@ export const width = Dimensions.get("window").width
 export const height = Dimensions.get("window").height
 
 export const allParcours = [
-    "IMA","DAC","ANDROIDE","BIM","IQ","RES","SAR","SESI","STL","SFPN"
+    "IMA","DAC","ANDROIDE","BIM","IQ","RES","SAR","SESI","STL","SFPN","MSI","STL-INSTA","RES-ESIEE-IT","DIGITAL"
 ]
 
 export const allUE = {
