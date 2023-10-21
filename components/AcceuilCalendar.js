@@ -30,7 +30,13 @@ export default function AcceuilCalendar({calendar}){
     const convertDateToString = (date) => {
         if (!(date instanceof Date)) 
             date = new Date(date)
-        stringDate = date.getHours() + "h" + date.getMinutes()
+        stringDate = date.getUTCHours() + "h" + date.getMinutes()
+
+        if (stringDate.length < 5 && stringDate[0] != "0") 
+            stringDate = "0"+stringDate
+        else if (stringDate.length < 5)
+            stringDate = stringDate + "0"
+
         return stringDate
     }
 
@@ -38,8 +44,6 @@ export default function AcceuilCalendar({calendar}){
         const itemValue = item.summary?.value.substring(item.summary?.value.indexOf('-') + 1);
         const itemLocation = item.location?.value
         const itemBegin = convertDateToString(item.dtstart?.value)
-
-
         return (
             <View style={{...containerStyle.planningContainer,backgroundColor:colorParcours[niveau][checkParcours(itemValue)]}}>
             {/* <View style={containerStyle.planningContainer}> */}
@@ -57,7 +61,7 @@ export default function AcceuilCalendar({calendar}){
                 ListHeaderComponent={<PlanningHeader/>}
                 data={calendar}
                 renderItem={({ item }) => renderPlanning(item)}
-                keyExtractor={(item)=>item.uid.value}
+                keyExtractor={(_,index)=>index}
                 ListFooterComponent={<View style={{height:50}}></View>}
             />
         </View>

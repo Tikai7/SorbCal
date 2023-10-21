@@ -45,10 +45,11 @@ const parseICSFile = async (data) => {
         targetDate.setHours(0, 0, 0, 0);
         targetDate.setDate(targetDate.getDate());
         // Filter events for the target date
+
         const eventsForToday = parsedData.events.filter((event) => {
             // Get the start and end date of the event
             const eventStart = new Date(event.dtstart.value);
-            const eventEnd = new Date(event.dtend.value);
+            // const eventEnd = new Date(event.dtend.value);
             // Each event can be recurring, so we need to check if one of the recurring events is on the target date
             if(event?.recurrenceRule && event?.recurrenceRule?.options && event?.recurrenceRule?.options?.until){
                 const eventUntil = new Date(event.recurrenceRule.options.until)

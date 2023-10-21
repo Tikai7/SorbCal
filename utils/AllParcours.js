@@ -4,7 +4,7 @@ export const width = Dimensions.get("window").width
 export const height = Dimensions.get("window").height
 
 export const allParcours = [
-    "IMA","DAC","ANDROIDE","BIM","IQ","RES","SAR","SESI","STL"
+    "IMA","DAC","ANDROIDE","BIM","IQ","RES","SAR","SESI","STL","SFPN"
 ]
 
 export const allUE = {
@@ -18,6 +18,7 @@ export const allUE = {
 		SAR : ["PSCR","NOYAU"],
 		SESI : ["MOBJ","ARCHI","SIGNAL","VLSI","ESA"],
 		STL : ["ALGAV","IL","Anglais","DLP"],
+		SFPN : ["MODEL","COMPLEX","BDD","PPAR","SC"],
 	},
 	M2 :{
 		IMA : ["VISION","MAPIMED","TADI","IG3DA","RDFIA","PRAT","BIOMED"],
@@ -29,6 +30,8 @@ export const allUE = {
 		SAR : ["ARA","NMV","DEVREP","DATACLOUD","ASTRE"],
 		SESI : ["HOTOP","gpe","PBD","HLS","MASSOC","IMSE","MOCCA","VLSI(2)","PROG","PAR"],
 		STL : ["TAS","DAAR","AAGA","PPC","PISTL","TPEA"],
+		SFPN : ["POSSO","SCA","AFORP","HPCA","CM","AFAE","CRYPTA","OIP"],
+
 	},
 }
 
@@ -43,6 +46,7 @@ export const colorParcours = {
 		SAR : "#8baad1",
 		SESI : "#de76f5",
 		STL : "#c88979",
+		SFPN : "#e5c4a9",
 	},
 	M2 : {
 		IMA : "#8b85b5",
@@ -54,5 +58,6 @@ export const colorParcours = {
 		SAR : "#85cd8b",
 		SESI : "#cecfb3",
 		STL : "#9889e5",
+		SFPN : "#e5c4a9",
 	},
 }
