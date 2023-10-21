@@ -15,20 +15,26 @@ export default function AcceuilDrawer() {
     const [niveau,setNiveau] = useState('M1')
     const [parcours,setparcours] = useState('IMA')
     const [calendar,setCalendar] = useState([])
+    const [loading,setLoading] = useState(true)
+    const [tm,setTm]=useState()
     const options = { header : (props) => <AcceuilHeader {...props} />}
 
     useEffect(()=>{
         async function getCalendar(){
             const path = `${parcours}/${niveau}_${parcours}/`
+            clearTimeout(tm)
+            setLoading(true)
             const [data,state] = await getData(path)
             if (state)
                 setCalendar(data)
+            t = setTimeout(()=>{setLoading(false)},1000)
+            setTm(t)
         }
         getCalendar()
     },[parcours,niveau])
 
     return (
-        <UserData.Provider value={{niveau,setNiveau,parcours,setparcours,calendar,setCalendar}}>
+        <UserData.Provider value={{niveau,setNiveau,parcours,setparcours,calendar,setCalendar,loading,setLoading}}>
             <Drawer.Navigator
                 drawerContent={(props) => <CustomDrawer {...props} />}
                 screenOptions={{swipeEdgeWidth: screenWidth/2 }}

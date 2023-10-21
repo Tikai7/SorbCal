@@ -4,14 +4,13 @@ import { containerStyle } from '../styles/mainstyle';
 import AcceuilCalendar from '../components/AcceuilCalendar';
 import AcceuilEmpty from '../components/AcceuilEmpty';
 import { UserData } from '../context/contextData';
+import Loading from '../components/Loading';
 
 export default function Acceuil(){
-
-    const {calendar} = useContext(UserData)
-   
+    const {calendar,loading} = useContext(UserData)
     return (
         <View style={containerStyle.container}>
-            {calendar.length > 0 ? <AcceuilCalendar calendar={calendar}/> : <AcceuilEmpty/>}
+            {loading ? <Loading/> : calendar.length > 0 ? <AcceuilCalendar calendar={calendar}/> : <AcceuilEmpty/>}
         </View>
     );
 }

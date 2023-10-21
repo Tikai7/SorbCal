@@ -5,7 +5,7 @@ import { Entypo } from '@expo/vector-icons';
 
 export default function AcceuilHeader({route,navigation}) {  
     const headerName = {
-        "Calendar":"Emploie du temps",
+        "Calendar":"Aujourd'hui",
     }
 
     function handleDrawer(){

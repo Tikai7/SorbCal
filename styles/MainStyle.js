@@ -1,4 +1,5 @@
-import { StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
+import { height, width } from '../utils/AllParcours';
 
 export const colorStyle = {
 	primary : "#263068",
@@ -77,6 +78,12 @@ export const textStyle = StyleSheet.create({
 		color: colorStyle.primary,
 		textAlign: 'left',
 	},
+	planningText:{
+		fontWeight: "600",
+		fontSize: fontStyle.small,
+		color: colorStyle.white,
+		textAlign: 'left',
+	}
 });	
 
 export const containerStyle = StyleSheet.create({
@@ -131,7 +138,8 @@ export const containerStyle = StyleSheet.create({
 		backgroundColor: colorStyle.primary,
 		paddingHorizontal:"5%",
 		paddingVertical:"2%",
-		borderRadius:15,
+		borderBottomLeftRadius:15,
+		borderBottomRightRadius:15,
 		marginBottom:"10%",
 	},
 	drawerButtonContainer:{
@@ -140,5 +148,26 @@ export const containerStyle = StyleSheet.create({
 		paddingBottom:"5%",
 		justifyContent:"space-between",
 		paddingHorizontal:"5%"
-	}
+	},
+	planningContainer:{
+		backgroundColor: colorStyle.secondary,
+		width: width*0.9,
+		height: height*0.1,
+		padding : 10,
+		borderRadius:10,
+		margin:"1%",
+		alignItems:"flex-start",
+		justifyContent:"center",
+	},
+	planningHeader:{
+		backgroundColor: colorStyle.white,
+		width: width*0.9,
+		height: height*0.1,
+		padding : 10,
+		borderRadius:10,
+		margin:"1%",
+		alignItems:"flex-start",
+		justifyContent:"center",
+	},	
+	
 });

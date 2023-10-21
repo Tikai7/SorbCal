@@ -1,6 +1,6 @@
 import React from 'react'
 import { View,Text,ScrollView, TouchableOpacity, SafeAreaView } from 'react-native'
-import { allParcours } from './AllParcours'
+import { allParcours } from "../utils/AllParcours"
 import { buttonStyle, colorStyle, containerStyle, textStyle } from '../styles/mainstyle'
 import DrawerHeader from './DrawerHeader'
 import { useContext } from 'react'

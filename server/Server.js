@@ -43,7 +43,7 @@ const parseICSFile = async (data) => {
         const oneWeek = 7
         // Set the time of the target date to midnight
         targetDate.setHours(0, 0, 0, 0);
-        targetDate.setDate(targetDate.getDate()-1);
+        targetDate.setDate(targetDate.getDate());
         // Filter events for the target date
         const eventsForToday = parsedData.events.filter((event) => {
             // Get the start and end date of the event
@@ -56,8 +56,18 @@ const parseICSFile = async (data) => {
                 // Check for every event recurrence if it is on the target date
                 while (currentEventStart <= eventUntil){
                     if (isSameDayAndMonthYear(currentEventStart, targetDate)){
-                        event.dtstart.value = eventStart.toISOString()
-                        event.dtend.value = eventEnd.toISOString()
+                        const updatedStartDate = new Date(currentEventStart);
+                        updatedStartDate.setFullYear(targetDate.getFullYear());
+                        updatedStartDate.setMonth(targetDate.getMonth());
+                        updatedStartDate.setDate(targetDate.getDate());
+                    
+                        const updatedEndDate = new Date(currentEventStart);
+                        updatedEndDate.setFullYear(targetDate.getFullYear());
+                        updatedEndDate.setMonth(targetDate.getMonth());
+                        updatedEndDate.setDate(targetDate.getDate());
+                    
+                        event.dtstart.value = updatedStartDate.toISOString();
+                        event.dtend.value = updatedEndDate.toISOString();
                         return true
                     }
                     // Pass to the next recurrence
@@ -69,6 +79,7 @@ const parseICSFile = async (data) => {
         });
         
         console.log("[INFO] Done!")
+        eventsForToday.sort((a,b)=>{return new Date(a.dtstart.value) - new Date(b.dtstart.value)})
         return [eventsForToday,SUCCESS];
     } catch (error) {
         console.error('[ERROR] Error while parsing the ICS file:', error);
