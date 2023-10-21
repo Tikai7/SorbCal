@@ -1,12 +1,11 @@
 import React from 'react';
-import { View } from 'react-native';
-import Acceuil from './components/Acceuil';
-import { containerStyle } from './styles/MainStyle';
+import AcceuilDrawer from './routes/AcceuilDrawer';
+import { NavigationContainer } from '@react-navigation/native';
 
 export default function App() {
 	return (
-		<View style={containerStyle.container}>
-			<Acceuil />
-		</View>
+		<NavigationContainer>
+			<AcceuilDrawer />
+		</NavigationContainer>
 	);
 }
