@@ -16,6 +16,7 @@ export default function AcceuilDrawer() {
     const [parcours,setparcours] = useState('IMA')
     const [calendar,setCalendar] = useState([])
     const [loading,setLoading] = useState(true)
+    const [refreshing, setRefreshing] = useState(false);
     const [tm,setTm]=useState()
     const options = { header : (props) => <AcceuilHeader {...props} />}
 
@@ -45,10 +46,10 @@ export default function AcceuilDrawer() {
             setTm(t)
         }
         getCalendar()
-    },[parcours,niveau])
+    },[parcours,niveau,refreshing])
 
     return (
-        <UserData.Provider value={{niveau,setNiveau,parcours,setparcours,calendar,setCalendar,loading,setLoading}}>
+        <UserData.Provider value={{niveau,setNiveau,parcours,setparcours,calendar,setCalendar,loading,setLoading,refreshing,setRefreshing}}>
             <Drawer.Navigator
                 drawerContent={(props) => <CustomDrawer {...props} />}
                 screenOptions={{swipeEdgeWidth: screenWidth/2 }}

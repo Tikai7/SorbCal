@@ -1,5 +1,5 @@
 import React, { useContext, useEffect,useRef } from 'react';
-import { View, Text,FlatList,Animated } from 'react-native';
+import { View, Text,FlatList,Animated,RefreshControl } from 'react-native';
 import { containerStyle, fontStyle, textStyle } from '../styles/mainstyle';
 import { allUE,colorParcours } from '../utils/AllParcours';
 import { UserData } from '../context/contextData';
@@ -7,8 +7,7 @@ import PlanningHeader from './PlanningHeader';
  
 
 export default function AcceuilCalendar({calendar}){
-
-    const {niveau} = useContext(UserData)
+    const {niveau,setRefreshing} = useContext(UserData)
     const animatedValues = useRef(calendar.map(() => new Animated.Value(0))).current;
 
     useEffect(() => {
@@ -39,11 +38,9 @@ export default function AcceuilCalendar({calendar}){
         return "IMA"
     }
 
-
-    useEffect(()=>{
-        console.log("New Calendar")
-    },[calendar])
-
+    const onRefresh = () => {
+        setRefreshing((old) => !old);
+    };
 
     const convertDateToString = (date) => {
         // Convert date to string and add a 0 if needed
@@ -52,9 +49,9 @@ export default function AcceuilCalendar({calendar}){
             date = new Date(date)
         stringDate = date.getUTCHours() + "h" + date.getMinutes()
 
-        if (stringDate.length < 5 && avoidData.includes(stringDate[0])) 
+        while (stringDate.length < 5 && avoidData.includes(stringDate[0])) 
             stringDate = "0"+stringDate
-        else if (stringDate.length < 5)
+        if (stringDate.length < 5)
             stringDate = stringDate + "0"
 
         return stringDate
@@ -101,6 +98,12 @@ export default function AcceuilCalendar({calendar}){
                 renderItem={({ item }) => renderPlanning(item,animatedValues[calendar.indexOf(item)])}
                 keyExtractor={(_,index)=>index}
                 ListFooterComponent={<View style={{height:50}}></View>}
+                refreshControl={
+                    <RefreshControl
+                    //   refreshing={refreshing}
+                      onRefresh={onRefresh}
+                    />
+                  }
             />
         </View>
     )

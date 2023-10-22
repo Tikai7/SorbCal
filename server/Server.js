@@ -46,7 +46,7 @@ const parseICSFile = async (data) => {
         const oneWeek = 7
         // Set the time of the target date to midnight
         targetDate.setHours(0, 0, 0, 0);
-        targetDate.setDate(targetDate.getDate());
+        targetDate.setDate(targetDate.getDate()-2);
         // Filter events for the target date
 
         const eventsForToday = parsedData.events.filter((event) => {
