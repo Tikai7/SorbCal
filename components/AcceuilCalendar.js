@@ -67,7 +67,6 @@ export default function AcceuilCalendar({calendar}){
 
         return (
             <Animated.View 
-            
                 // style={{...containerStyle.planningContainer,backgroundColor:colorParcours[niveau][checkParcours(itemValue)]}}
                 style={[
                     {...containerStyle.planningContainer,backgroundColor:colorParcours[niveau][checkParcours(itemValue)]},
@@ -83,9 +82,7 @@ export default function AcceuilCalendar({calendar}){
                     ],
                     },
                 ]}
-                
-                
-                
+                        
                 >
             {/* <View style={containerStyle.planningContainer}> */}
                 <Text style={{...textStyle.planningText,fontSize:fontStyle.lessBig}}>{itemValue}</Text>

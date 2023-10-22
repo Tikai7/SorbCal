@@ -1,12 +1,13 @@
-import { Dimensions, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { height, width } from '../utils/AllParcours';
 
+// Not the official colors of Sorbonne Université
 export const colorStyle = {
-	primary : "#263068",
-	secondary : "#E6332A",
-	tertiary : "#E8F0FE",
-	white: "#FFFFFF",
-	secondarySoft : "rgba(230,51,42,0.2)"
+	primary : "#25305a",
+	secondary : "#E7322B",
+	tertiary : "#E9F0FD",
+	white : "#FFFFFF",
+	secondarySoft : "rgba(231,50,43,0.2)",
 }
 
 export const fontStyle = {
