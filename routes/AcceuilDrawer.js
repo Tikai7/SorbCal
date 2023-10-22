@@ -6,6 +6,7 @@ import { Dimensions } from 'react-native';
 import { useState,useEffect } from 'react';
 import { getData } from '../server/Server';
 import { UserData } from '../context/contextData';
+import CalendarDrawer from './CalendarDrawer';
 
 const screenWidth = Dimensions.get("window").width
 const Drawer = createDrawerNavigator();
@@ -18,7 +19,7 @@ export default function AcceuilDrawer() {
     const [loading,setLoading] = useState(true)
     const [refreshing, setRefreshing] = useState(false);
     const [tm,setTm]=useState()
-    const options = { header : (props) => <AcceuilHeader {...props} />}
+    const options = { header : () => null}
 
     useEffect(()=>{
         async function getCalendar(){
@@ -54,7 +55,7 @@ export default function AcceuilDrawer() {
                 drawerContent={(props) => <CustomDrawer {...props} />}
                 screenOptions={{swipeEdgeWidth: screenWidth/2 }}
             >
-                <Drawer.Screen name="Calendar" component={Acceuil} options={options} />
+                <Drawer.Screen name="Calendar" component={CalendarDrawer} options={options} />
             </Drawer.Navigator>
         </UserData.Provider>
     );

@@ -38,7 +38,18 @@ function isSameDayAndMonthYear(date1, date2) {
     return date1?.getDate() === date2?.getDate() && date1?.getMonth() === date2?.getMonth() && date1?.getFullYear() === date2?.getFullYear();
 }
 
-const parseICSFile = async (data) => {
+function isAsked(eventValue,constraints){
+    constraints = {"UE":["MLBDA","M2"],"Groupe":["G1"]}
+    if (constraints === null)
+        return true
+
+    const containedUE = constraints["UE"].some((str) => eventValue.includes(str));
+    const containedGroupe = constraints["Groupe"].some((str) => eventValue.includes(str)) || true;
+
+    return containedUE && containedGroupe
+}
+
+const parseICSFile = async (data,constraints) => {
     try {
         console.log("[INFO] Parsing data...")
         const parsedData = ical.parseString(data);
@@ -46,7 +57,7 @@ const parseICSFile = async (data) => {
         const oneWeek = 7
         // Set the time of the target date to midnight
         targetDate.setHours(0, 0, 0, 0);
-        targetDate.setDate(targetDate.getDate()-2);
+        targetDate.setDate(targetDate.getDate()-3);
         // Filter events for the target date
 
         const eventsForToday = parsedData.events.filter((event) => {
@@ -59,7 +70,7 @@ const parseICSFile = async (data) => {
                 const currentEventStart = new Date(eventStart)
                 // Check for every event recurrence if it is on the target date
                 while (currentEventStart <= eventUntil){
-                    if (isSameDayAndMonthYear(currentEventStart, targetDate)){
+                    if (isSameDayAndMonthYear(currentEventStart, targetDate) && isAsked(event.summary.value,constraints)){
                         // If the event is on the target date, we need to update the start and end date of the event
                         // And then add it to the list of events 
                         const updatedStartDate = new Date(currentEventStart);
@@ -81,7 +92,7 @@ const parseICSFile = async (data) => {
                 }
                 return false
             }            
-            return isSameDayAndMonthYear(eventStart, targetDate)
+            return isSameDayAndMonthYear(eventStart, targetDate) && isAsked(event.summary.value,constraints);
         });
         
         console.log("[INFO] Done!")
@@ -94,14 +105,14 @@ const parseICSFile = async (data) => {
     }
 };
 
-export const getData = async (path) => {
+export const getData = async (path,constraints=null) => {
     try {
         console.log(`[INFO] Asking for : ${path}...`)
         // Get the ICS file
         const response = await api.get(path);
         console.log("[INFO] Data loaded")
         // Parse the ICS file
-        return parseICSFile(response.data)
+        return parseICSFile(response.data,constraints)
     } catch (error) {
         console.error('[ERROR] Error while getting the ICS file:', error);
         return [[],ERROR];
