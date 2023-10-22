@@ -6,6 +6,7 @@ export default function Loading() {
     const lottieRef = useRef(null)
 
     useEffect(() => {
+		// Reset animation on each render
         if (lottieRef.current) {
           setTimeout(() => {
             lottieRef.current?.play();

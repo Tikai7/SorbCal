@@ -6,10 +6,12 @@ import ical from "cal-parser"
 const SUCCESS = true
 const ERROR = false
 
+// Credentials for the caldav server
 const username= "student.master";
 const password= "guest"
 const authHeader = 'Basic ' + base64.encode(`${username}:${password}`);
 
+// Create an axios instance
 const api = axios.create({
   baseURL : 'https://cal.ufr-info-p6.jussieu.fr:443/caldav.php/',
   timeout : 7000,
@@ -17,7 +19,7 @@ const api = axios.create({
     'Authorization': authHeader },
 });
 
-/*
+/* Keys of the events object
     "created", 
     "uid", 
     "dtend", 
@@ -31,6 +33,7 @@ const api = axios.create({
     "sequence"
 */
 
+// Check if two dates are the same day, month and year
 function isSameDayAndMonthYear(date1, date2) {
     return date1?.getDate() === date2?.getDate() && date1?.getMonth() === date2?.getMonth() && date1?.getFullYear() === date2?.getFullYear();
 }
@@ -57,6 +60,8 @@ const parseICSFile = async (data) => {
                 // Check for every event recurrence if it is on the target date
                 while (currentEventStart <= eventUntil){
                     if (isSameDayAndMonthYear(currentEventStart, targetDate)){
+                        // If the event is on the target date, we need to update the start and end date of the event
+                        // And then add it to the list of events 
                         const updatedStartDate = new Date(currentEventStart);
                         updatedStartDate.setFullYear(targetDate.getFullYear());
                         updatedStartDate.setMonth(targetDate.getMonth());
@@ -80,6 +85,7 @@ const parseICSFile = async (data) => {
         });
         
         console.log("[INFO] Done!")
+        // Sort events by start date
         eventsForToday.sort((a,b)=>{return new Date(a.dtstart.value) - new Date(b.dtstart.value)})
         return [eventsForToday,SUCCESS];
     } catch (error) {

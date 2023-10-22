@@ -27,8 +27,6 @@ export default function DrawerHeader() {
                     Vos parcours
                 </Text>
             </View>
-
-
             <View style={containerStyle.drawerButtonContainer}>
                 <TouchableOpacity 
                     onPress={()=>handlePress("M1")} 

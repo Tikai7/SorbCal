@@ -23,6 +23,7 @@ export default function AcceuilDrawer() {
         async function getCalendar(){
             let path = `${parcours}/${niveau}_${parcours}/`            
             
+            // Only for special courses, because the API works differently
             if (parcours == "STL-INSTA"){
                 path = "STL/M2_STL-INSTA/"
                 setNiveau("M2")
@@ -34,6 +35,7 @@ export default function AcceuilDrawer() {
             else if (parcours == "MSI")
                 path =`SFPN/${niveau}_SFPN-AFTI/`;
             
+            // loading animation
             clearTimeout(tm)
             setLoading(true)
             const [data,state] = await getData(path)
