@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { headerStyle,textStyle,colorStyle } from '../styles/mainstyle';
 import { Entypo } from '@expo/vector-icons'; 
+import { Ionicons } from '@expo/vector-icons'; 
 
 export default function AcceuilHeader({route,navigation}) {  
     const headerName = {
@@ -22,8 +23,8 @@ export default function AcceuilHeader({route,navigation}) {
             <Entypo 
                 style={{alignItems:"flex-start",paddingLeft:"5%"}} 
                 onPress={handleDrawer} 
-                name="calendar"  
-                size={24} 
+                name="menu"  
+                size={27} 
                 color={colorStyle.white} 
             />
         </View>

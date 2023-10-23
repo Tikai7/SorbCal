@@ -14,11 +14,15 @@ const Drawer = createDrawerNavigator();
 export default function AcceuilDrawer() {
 
     const [niveau,setNiveau] = useState('M1')
-    const [parcours,setparcours] = useState('IMA')
+    const [tempNiveau,setTempNiveau] = useState('M1')
+    const [error,setError] = useState(false)
+    const [parcours,setParcours] = useState('IMA')
+    const [tempParcours,setTempParcours] = useState('IMA')
     const [calendar,setCalendar] = useState([])
     const [loading,setLoading] = useState(true)
+    const [active,setActive] = useState("Acceuil")
     const [refreshing, setRefreshing] = useState(false);
-    const [tm,setTm]=useState()
+
     const options = { header : () => null}
 
     useEffect(()=>{
@@ -26,34 +30,49 @@ export default function AcceuilDrawer() {
             let path = `${parcours}/${niveau}_${parcours}/`            
             
             // Only for special courses, because the API works differently
-            if (parcours == "STL-INSTA"){
+            if (parcours === "STL-INSTA"){
                 path = "STL/M2_STL-INSTA/"
                 setNiveau("M2")
             }
-            else if (parcours == "DIGITAL")
+            else if (parcours === "DIGITAL")
                 path =`RES/${niveau}_RES-EIT-Digital/`;
-            else if (parcours == "RES-ESIEE-IT")
+            else if (parcours === "RES-ESIEE-IT")
                 path =`RES/${niveau}_RES-ITESCIA/`;
-            else if (parcours == "MSI")
+            else if (parcours === "MSI")
                 path =`SFPN/${niveau}_SFPN-AFTI/`;
             
-            // loading animation
-            clearTimeout(tm)
             setLoading(true)
             const [data,state] = await getData(path)
-            if (state)
+            if (state){
+                setError(false)
                 setCalendar(data)
-            t = setTimeout(()=>{setLoading(false)},1000)
-            setTm(t)
+            }
+            else{
+                setError(true)
+                setParcours(tempParcours)
+                setNiveau(tempNiveau)
+                console.log("Error while fetching data")
+            }
+            setLoading(false)
         }
         getCalendar()
     },[parcours,niveau,refreshing])
 
     return (
-        <UserData.Provider value={{niveau,setNiveau,parcours,setparcours,calendar,setCalendar,loading,setLoading,refreshing,setRefreshing}}>
+        <UserData.Provider value={{
+            niveau,setNiveau,
+            parcours,setParcours,
+            calendar,setCalendar,
+            loading,setLoading,
+            refreshing,setRefreshing,
+            active,setActive,
+            error,setError,
+            tempParcours,setTempParcours,
+            tempNiveau,setTempNiveau
+        }}>
             <Drawer.Navigator
                 drawerContent={(props) => <CustomDrawer {...props} />}
-                screenOptions={{swipeEdgeWidth: screenWidth/2 }}
+                screenOptions={{swipeEdgeWidth: Math.floor(screenWidth/3) }}
             >
                 <Drawer.Screen name="Calendar" component={CalendarTab} options={options} />
             </Drawer.Navigator>

@@ -1,6 +1,7 @@
 import axios from "axios";
 import base64 from "react-native-base64";
 import ical from "cal-parser"
+import { parseICS } from "../utils/Parser";
 
 
 const SUCCESS = true
@@ -52,7 +53,7 @@ function isAsked(eventValue,constraints){
 const parseICSFile = async (data,constraints) => {
     try {
         console.log("[INFO] Parsing data...")
-        const parsedData = ical.parseString(data);
+        const parsedData = parseICS(data)
         const targetDate = new Date(); 
         const oneWeek = 7
         // Set the time of the target date to midnight

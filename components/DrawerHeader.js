@@ -6,9 +6,10 @@ import { useContext } from 'react';
 import { Ionicons } from '@expo/vector-icons'; 
 
 export default function DrawerHeader({text}) {
-    const {niveau,setNiveau} = useContext(UserData)
+    const {niveau,setNiveau,setTempNiveau} = useContext(UserData)
     
     function handlePress(lvl){
+        setTempNiveau(niveau)
         setNiveau(lvl)
     }
 

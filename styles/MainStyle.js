@@ -182,6 +182,6 @@ export const containerStyle = StyleSheet.create({
 		justifyContent:"space-around",
 		paddingHorizontal:"5%",
 		paddingVertical:"2%",
-		backgroundColor: colorStyle.tertiary,
+		backgroundColor: colorStyle.white,
 	},
 });

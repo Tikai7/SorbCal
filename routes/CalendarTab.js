@@ -6,7 +6,6 @@ import { Dimensions } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import CustomTab from '../components/CustomTab';
 
-const screenWidth = Dimensions.get("window").width
 const Tab = createBottomTabNavigator();
 
 export default function CalendarTab() {

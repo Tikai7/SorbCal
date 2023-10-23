@@ -6,11 +6,15 @@ import DrawerHeader from './DrawerHeader'
 import { useContext } from 'react'
 import { UserData } from '../context/contextData'
 
-export default function CustomDrawer() {
-    const {parcours,setparcours} = useContext(UserData)
+export default function CustomDrawer({navigation}) {
+    const {parcours,setParcours,setActive,setTempParcours,setError} = useContext(UserData)
     
     function handleParcours(p){
-        setparcours(p)
+        setError(false)
+        navigation.navigate("Acceuil")
+        setActive("Acceuil")
+        setTempParcours(parcours)
+        setParcours(p)
     }
     function renderParcours({element}) {
         return (
