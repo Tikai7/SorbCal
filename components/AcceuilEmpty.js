@@ -5,7 +5,7 @@ import { containerStyle, textStyle } from '../styles/mainstyle';
 import { useEffect,useContext,useRef } from 'react';
 import { UserData } from '../context/contextData';
 
-export default function AcceuilEmpty(){
+export default function AcceuilEmpty({isPersonal}){
     const {parcours,niveau,setRefreshing} = useContext(UserData)
     const lottieRef = useRef(null)
 
@@ -34,11 +34,11 @@ export default function AcceuilEmpty(){
         >
             <View style={containerStyle.emptyContainer}>
                 <View style={containerStyle.parcoursContainer}>
-                    <Text style={textStyle.parcours}>Parcours : {niveau} {parcours}</Text>
+                    <Text style={textStyle.parcours}>{!isPersonal ? `Parcours : ${niveau} ${parcours}` : "Let's go" }</Text>
                 </View>
                 <View style={containerStyle.textContainer}>
                     <Text style={textStyle.subtitle}>Vous n'avez rien aujourd'hui !</Text>
-                    <Text style={textStyle.subsubtitle}>Selectionner un autre parcours</Text>
+                    {!isPersonal && <Text style={textStyle.subsubtitle}>Selectionner un autre parcours</Text>}
                 </View>
                 <View>
                     <LottieView 

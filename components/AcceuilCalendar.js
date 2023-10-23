@@ -100,7 +100,6 @@ export default function AcceuilCalendar({calendar}){
                 ListFooterComponent={<View style={{height:50}}></View>}
                 refreshControl={
                     <RefreshControl
-                    //   refreshing={refreshing}
                       onRefresh={onRefresh}
                     />
                   }

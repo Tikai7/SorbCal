@@ -14,7 +14,7 @@ const authHeader = 'Basic ' + base64.encode(`${username}:${password}`);
 // Create an axios instance
 const api = axios.create({
   baseURL : 'https://cal.ufr-info-p6.jussieu.fr:443/caldav.php/',
-  timeout : 7000,
+  timeout : 20000,
   headers : {'X-Custom-Header' : 'foobar',
     'Authorization': authHeader },
 });
@@ -39,12 +39,12 @@ function isSameDayAndMonthYear(date1, date2) {
 }
 
 function isAsked(eventValue,constraints){
-    constraints = {"UE":["MLBDA","M2"],"Groupe":["G1"]}
+    // constraints = {"UE":["LRC","M2"],"Groupe":["1"]}
     if (constraints === null)
         return true
 
     const containedUE = constraints["UE"].some((str) => eventValue.includes(str));
-    const containedGroupe = constraints["Groupe"].some((str) => eventValue.includes(str)) || true;
+    const containedGroupe = constraints["Groupe"].some((str) => eventValue.includes(str));
 
     return containedUE && containedGroupe
 }
@@ -57,7 +57,7 @@ const parseICSFile = async (data,constraints) => {
         const oneWeek = 7
         // Set the time of the target date to midnight
         targetDate.setHours(0, 0, 0, 0);
-        targetDate.setDate(targetDate.getDate()-3);
+        targetDate.setDate(targetDate.getDate());
         // Filter events for the target date
 
         const eventsForToday = parsedData.events.filter((event) => {

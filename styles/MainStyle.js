@@ -44,6 +44,13 @@ export const buttonStyle = StyleSheet.create({
 		borderRadius:10,
 		alignItems: 'center',
 		justifyContent: 'center',
+	},
+	tabIcon:{
+		paddingTop:"5%",
+		paddingBottom:"2%",
+		flexDirection:"column",
+		alignItems:"center",
+		justifyContent:"center",
 	}
 });
 
@@ -169,6 +176,12 @@ export const containerStyle = StyleSheet.create({
 		margin:"1%",
 		alignItems:"flex-start",
 		justifyContent:"center",
-	},	
-	
+	},
+	tabContainer:{
+		flexDirection:"row",
+		justifyContent:"space-around",
+		paddingHorizontal:"5%",
+		paddingVertical:"2%",
+		backgroundColor: colorStyle.tertiary,
+	},
 });
