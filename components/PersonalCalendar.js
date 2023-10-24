@@ -1,32 +1,45 @@
-import React, { useState } from "react";
+import React, { useState,useEffect,useContext,useRef } from "react";
 import { View, Text,TouchableOpacity } from "react-native";
-import { allUE } from "../utils/AllParcours";
 import { containerStyle,colorStyle,buttonStyle,textStyle } from "../styles/mainstyle";
-import { useContext } from "react";
 import { UserData } from "../context/contextData";
+import LottieView from "lottie-react-native";
 export default function PersonalCalendar() {
-    const [ue,setUE]= useState([])
+    const {niveau} = useContext(UserData)
+    const [falseLvl,setFalseLvl] = useState(niveau)
+    
+    const lottieRef = useRef(null)
 
-    function renderUE(element){
-        return (
-            <View>
-                <Text>{element}</Text>
-                <View>
-                    {allUE["M1"][element].map(ue => {
-                        return (
-                            <TouchableOpacity>
-                                <Text style={textStyle.subsubtitle}>{ue}</Text>
-                            </TouchableOpacity>
-                        )
-                    })}
-                </View>
-            </View>
-        )
-    }
+    useEffect(() => {
+        // Reset animation on each render
+        if (lottieRef.current) {
+          setTimeout(() => {
+            lottieRef.current?.reset();
+            lottieRef.current?.play();
+          }, 100);
+        }
+    }, [lottieRef.current]);
 
     return (
-        <View>
-            <Text>Y'a R</Text>
+        <View style={containerStyle.emptyContainer}>
+            <View style={containerStyle.parcoursContainer}>
+                <Text style={textStyle.parcours}>Oops</Text>
+            </View>
+            <View style={{...containerStyle.textContainer,marginBottom:"-5%"}}>
+                <Text style={textStyle.subtitle}>Vous n'avez aucun planning</Text>
+            </View>
+            <View>
+                <LottieView 
+                    ref={lottieRef}
+                    source={require('../images/no_result.json')} 
+                    autoPlay 
+                    loop 
+                    style={{width:350,height:350}}
+                    renderMode={"SOFTWARE"}
+                />
+            </View>
+            <TouchableOpacity style={buttonStyle.primaryButton}>
+                <Text style={textStyle.primaryText}>Créer mon planning</Text>
+            </TouchableOpacity>
         </View>
     );
 }

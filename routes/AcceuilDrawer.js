@@ -72,7 +72,6 @@ export default function AcceuilDrawer() {
         }}>
             <Drawer.Navigator
                 drawerContent={(props) => <CustomDrawer {...props} />}
-                screenOptions={{swipeEdgeWidth: Math.floor(screenWidth/3) }}
             >
                 <Drawer.Screen name="Calendar" component={CalendarTab} options={options} />
             </Drawer.Navigator>

@@ -51,7 +51,27 @@ export const buttonStyle = StyleSheet.create({
 		flexDirection:"column",
 		alignItems:"center",
 		justifyContent:"center",
-	}
+	},
+	ueButton:{
+		backgroundColor: colorStyle.tertiary,
+		padding:"2%",
+		paddingHorizontal:"5%",
+		margin:"1%",
+		borderRadius:5,
+		alignItems:"center",
+		justifyContent:"center",
+	},
+	primaryButton:{
+		backgroundColor: colorStyle.secondary,
+		width:"85%",
+		height: 50,
+		padding:"3%",
+		paddingHorizontal:"5%",
+		margin:"1%",
+		borderRadius:10,
+		alignItems:"center",
+		justifyContent:"center",
+	},
 });
 
 export const textStyle = StyleSheet.create({
@@ -89,6 +109,12 @@ export const textStyle = StyleSheet.create({
 	planningText:{
 		fontWeight: "600",
 		fontSize: fontStyle.small,
+		color: colorStyle.white,
+		textAlign: 'left',
+	},
+	primaryText:{
+		fontWeight: "600",
+		fontSize: fontStyle.medium,
 		color: colorStyle.white,
 		textAlign: 'left',
 	}
@@ -184,4 +210,33 @@ export const containerStyle = StyleSheet.create({
 		paddingVertical:"2%",
 		backgroundColor: colorStyle.white,
 	},
+	ueContainer:{
+		backgroundColor: colorStyle.white,
+		width: "100%",
+		height:"100%",
+		padding : "5%",
+		alignItems:"flex-start",
+		justifyContent:"flex-start",
+	},
+	ueElements:{
+		flexDirection:"row",
+		flexWrap:"wrap",
+		paddingVertical:"2%",
+		paddingHorizontal:"5%",
+	},
+	ueInfo:{
+		alignItems:"flex-start",
+		justifyContent:"flex-start",
+	},
+	lvlContainer:{
+		alignSelf:"center",
+		flexDirection:"row",
+		justifyContent:"space-between",
+		borderBottomLeftRadius:15,
+		borderBottomRightRadius:15,
+		paddingHorizontal:"5%",
+		paddingVertical:"5%",
+		alignItems:"center",
+		backgroundColor: colorStyle.primary,
+	}
 });
