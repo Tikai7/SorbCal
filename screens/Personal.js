@@ -1,5 +1,5 @@
-import React from 'react';
-import { View,Text } from 'react-native';
+import React, { useEffect } from 'react';
+import { View } from 'react-native';
 import { useContext } from 'react';
 import { UserData } from '../context/contextData';
 import Loading from '../components/Loading';

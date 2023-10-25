@@ -39,15 +39,13 @@ function isSameDayAndMonthYear(date1, date2) {
     return date1?.getDate() === date2?.getDate() && date1?.getMonth() === date2?.getMonth() && date1?.getFullYear() === date2?.getFullYear();
 }
 
-function isAsked(eventValue,constraints){
+function isAsked(eventValue,constraintsUE){
     // constraints = {"UE":["LRC","M2"],"Groupe":["1"]}
-    if (constraints === null)
+    if (constraintsUE === null && !constraintsUE?.length > 0)
         return true
 
-    const containedUE = constraints["UE"].some((str) => eventValue.includes(str));
-    const containedGroupe = constraints["Groupe"].some((str) => eventValue.includes(str));
-
-    return containedUE && containedGroupe
+    const containedUE = constraintsUE.some((str) => eventValue.includes(str));
+    return containedUE 
 }
 
 const parseICSFile = async (data,constraints) => {
@@ -109,6 +107,8 @@ const parseICSFile = async (data,constraints) => {
 export const getData = async (path,constraints=null) => {
     try {
         console.log(`[INFO] Asking for : ${path}...`)
+        if (constraints !== null && constraints?.length >0)
+            console.log(`[INFO] Constraints : ${JSON.stringify(constraints)}`)
         // Get the ICS file
         const response = await api.get(path);
         console.log("[INFO] Data loaded")

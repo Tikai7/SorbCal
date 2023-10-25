@@ -1,14 +1,16 @@
 import React, { useState,useEffect,useContext,useRef } from "react";
-import { View, Text,TouchableOpacity } from "react-native";
-import { containerStyle,colorStyle,buttonStyle,textStyle } from "../styles/mainstyle";
+import { View, Text,TouchableOpacity, Modal } from "react-native";
+import { containerStyle,buttonStyle,textStyle } from "../styles/mainstyle";
 import { UserData } from "../context/contextData";
 import LottieView from "lottie-react-native";
-export default function PersonalCalendar() {
-    const {niveau} = useContext(UserData)
-    const [falseLvl,setFalseLvl] = useState(niveau)
-    
-    const lottieRef = useRef(null)
+import UEModal from "./UEModal";
+import UECalendar from "./UECalendar";
 
+export default function PersonalCalendar() {
+    const {myUE,myCalendar} = useContext(UserData)
+    const [createModal,setCreateModal] = useState(false)
+
+    const lottieRef = useRef(null)
     useEffect(() => {
         // Reset animation on each render
         if (lottieRef.current) {
@@ -19,15 +21,22 @@ export default function PersonalCalendar() {
         }
     }, [lottieRef.current]);
 
+    function handleCreate(){
+        setCreateModal((old) => !old)
+    }
+
     return (
         <View style={containerStyle.emptyContainer}>
-            <View style={containerStyle.parcoursContainer}>
+            <Modal animationType="slide" visible={createModal} >
+                <UEModal handleCreate={handleCreate}/>
+            </Modal>
+            {!myUE?.length > 0 && <View style={containerStyle.parcoursContainer}>
                 <Text style={textStyle.parcours}>Oops</Text>
-            </View>
-            <View style={{...containerStyle.textContainer,marginBottom:"-5%"}}>
+            </View>}
+            {!myUE?.length > 0 && <View style={{...containerStyle.textContainer,marginBottom:"-5%"}}>
                 <Text style={textStyle.subtitle}>Vous n'avez aucun planning</Text>
-            </View>
-            <View>
+            </View>}
+            {!myUE?.length > 0 && <View>
                 <LottieView 
                     ref={lottieRef}
                     source={require('../images/no_result.json')} 
@@ -36,10 +45,15 @@ export default function PersonalCalendar() {
                     style={{width:350,height:350}}
                     renderMode={"SOFTWARE"}
                 />
-            </View>
-            <TouchableOpacity style={buttonStyle.primaryButton}>
+            </View>}
+            {!myUE?.length > 0 && <TouchableOpacity onPress={handleCreate} style={buttonStyle.primaryButton}>
                 <Text style={textStyle.primaryText}>Créer mon planning</Text>
-            </TouchableOpacity>
+            </TouchableOpacity>}
+            
+            {myUE?.length > 0 && 
+                <UECalendar />
+            }
+
         </View>
     );
 }

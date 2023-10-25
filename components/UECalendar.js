@@ -1,17 +1,17 @@
 import React, { useContext, useEffect,useRef } from 'react';
 import { View, Text,FlatList,Animated,RefreshControl } from 'react-native';
-import { containerStyle, fontStyle, textStyle } from '../styles/mainstyle';
+import { colorStyle, containerStyle, fontStyle, textStyle } from '../styles/mainstyle';
 import { allUE,colorParcours } from '../utils/AllParcours';
-import { UserData } from '../context/contextData';
-import PlanningHeader from './PlanningHeader';
- 
+import { UserData } from '../context/contextData'; 
 
-export default function AcceuilCalendar({myEDT,calendar}){
-    const {niveau,setRefreshing,myLVL} = useContext(UserData)
-    const animatedValues = useRef(calendar.map(() => new Animated.Value(0))).current;
+export default function UECalendar(){
+    const {myLVL,myCalendar} = useContext(UserData)
+    const animatedValues = useRef(myCalendar.map(() => new Animated.Value(0))).current;
+    const currentDate = new Date()
 
     useEffect(() => {
-        const animations = calendar.map((_, index) => {
+        console.log(myCalendar)
+        const animations = myCalendar.map((_, index) => {
           return Animated.timing(animatedValues[index], {
             toValue: 1,
             duration: 300,
@@ -21,15 +21,15 @@ export default function AcceuilCalendar({myEDT,calendar}){
         });
     
         Animated.sequence(animations).start();
-    }, [animatedValues, calendar]);
+    }, [animatedValues, myCalendar]);
 
 
     // Assing a color to each UE
     function checkParcours(item) {
         // Check to which courses the UE belongs
-        for (const value of Object.keys(allUE[myEDT ? myLVL : niveau])) {
-            for (const UE of allUE[myEDT ? myLVL : niveau][value]) {
-                if(item.includes(UE)){
+        for (const value of Object.keys(allUE[myLVL])) {
+            for (const UE of allUE[myLVL][value]) {
+                if(item?.includes(UE)){
                     return value
                 }
             }
@@ -38,11 +38,6 @@ export default function AcceuilCalendar({myEDT,calendar}){
         return "IMA"
     }
 
-    const onRefresh = () => {
-        if (myEDT)
-            return
-        setRefreshing((old) => !old);
-    };
 
     const convertDateToString = (date) => {
         // Convert date to string and add a 0 if needed
@@ -68,7 +63,7 @@ export default function AcceuilCalendar({myEDT,calendar}){
             <Animated.View 
                 // style={{...containerStyle.planningContainer,backgroundColor:colorParcours[niveau][checkParcours(itemValue)]}}
                 style={[
-                    {...containerStyle.planningContainer,backgroundColor:colorParcours[niveau][checkParcours(itemValue)]},
+                    {...containerStyle.planningContainer,backgroundColor:colorParcours[myLVL][checkParcours(itemValue)]},
                     {
                     opacity: value,
                     transform: [
@@ -91,20 +86,23 @@ export default function AcceuilCalendar({myEDT,calendar}){
         );
     }
 
+    function UEHeader(){
+        return(
+            <View style={containerStyle.planningHeader}>
+                <Text style={textStyle.subtitle}>Planning <Text style={{color:colorStyle.secondary}}>{"UE"}</Text></Text>
+                <Text style={{...textStyle.subsubtitle,fontSize:fontStyle.medium}}>UE pour le {currentDate.getDate()}/{currentDate.getMonth()+1}/{currentDate.getFullYear()}</Text>
+            </View>
+        )
+    }
     
     return (
         <View style={containerStyle.safeContainer}>
             <FlatList
-                ListHeaderComponent={<PlanningHeader myEDT={myEDT}/>}
-                data={calendar}
-                renderItem={({ item }) => renderPlanning(item,animatedValues[calendar.indexOf(item)])}
+                ListHeaderComponent={<UEHeader/>}
+                data={myCalendar}
+                renderItem={({ item }) => renderPlanning(item,animatedValues[myCalendar.indexOf(item)])}
                 keyExtractor={(_,index)=>index}
                 ListFooterComponent={<View style={{height:50}}></View>}
-                refreshControl={
-                    <RefreshControl
-                      onRefresh={onRefresh}
-                    />
-                  }
             />
         </View>
     )

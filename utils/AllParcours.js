@@ -35,6 +35,22 @@ export const allUE = {
 	},
 }
 
+export const allUEsorted = {
+	"M1" : [
+		"BIMA","MAPSI","MLBDA","LRC","MOGPL","AAGB","Maths","QCLG","QPh4CS","RTEL","ARES","PROGRES","PSCR","NOYAU","MOBJ","ARCHI","SIGNAL",
+		"VLSI","ESA","ALGAV","IL","Anglais","DLP","MODEL","COMPLEX","BDD","PPAR","SC"
+	].sort(),
+	"M2" : [
+		"VISION","MAPIMED","TADI","IG3DA","RDFIA","PRAT","BIOMED","RLD","BDLE","REDS","XAI","AMAL","LODAS","MOSIMA","COCOMA","MAOA","MADI","IAR","EVHI",
+		"ISG","AOTJ","MADMC","STRUCT","RESYS","GPOP","PHYG","SPLEX","MEET","PhQC","QCrypt","QIT","QAlg","DAAR","NETMET","IOB","OIP","ITQOS","SECRES","ANET","CELL",
+		"ARA","NMV","DEVREP","DATACLOUD","ASTRE","HOTOP","gpe","PBD","HLS","MASSOC","IMSE","MOCCA","VLSI(2)","PROG","PAR","TAS","DAAR","AAGA","PPC","PISTL","TPEA",
+		"POSSO","SCA","AFORP","HPCA","CM","AFAE","CRYPTA","OIP"
+	].sort()
+
+}
+
+
+
 export const colorParcours = {
 	M1 : {
 		IMA : "#d4a571",
@@ -60,4 +76,15 @@ export const colorParcours = {
 		STL : "#9889e5",
 		SFPN : "#e5c4a9",
 	},
+}
+
+export function getParcoursOfMyUE(myUE,lvl){
+	parcours = []
+	for (const ue of myUE){
+		for (const parcour in allUE[lvl]){
+			if (allUE[lvl][parcour].includes(ue))
+				parcours.push(parcour)
+		}
+	}
+	return parcours
 }
