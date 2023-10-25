@@ -39,16 +39,32 @@ function isSameDayAndMonthYear(date1, date2) {
     return date1?.getDate() === date2?.getDate() && date1?.getMonth() === date2?.getMonth() && date1?.getFullYear() === date2?.getFullYear();
 }
 
-function isAsked(eventValue,constraintsUE){
-    // constraints = {"UE":["LRC","M2"],"Groupe":["1"]}
-    if (constraintsUE === null && !constraintsUE?.length > 0)
+function isAsked(eventValue,constraintsUE,groupsTME){
+    const alwaysValid = ["CS","Cours","CM","ER","ATRIUM"]
+    // Regex for knowing if TME or TD is followed by a number
+    const patternTME = /TME(\d+)/; 
+    const patternTD = /TD(\d+)/; 
+
+    if (constraintsUE === null && !constraintsUE?.length > 0 || groupsTME === null && !groupsTME?.length > 0)
         return true
 
-    const containedUE = constraintsUE.some((str) => eventValue.includes(str));
-    return containedUE 
+    for (const str of constraintsUE) {
+
+        if (eventValue.includes(str) && (eventValue.includes("TD"+groupsTME[str]) || eventValue.includes("TME"+groupsTME[str])))
+            return true
+
+        if (eventValue.match(patternTME) && eventValue.match(patternTD))
+            return true
+        
+        for (const validStr of alwaysValid) {
+            if (eventValue.includes(validStr) && eventValue.includes(str))
+                return true
+            
+        }
+    }
 }
 
-const parseICSFile = async (data,constraints) => {
+const parseICSFile = async (data,constraints,groups) => {
     try {
         console.log("[INFO] Parsing data...")
         const parsedData = parseICS(data)
@@ -69,7 +85,7 @@ const parseICSFile = async (data,constraints) => {
                 const currentEventStart = new Date(eventStart)
                 // Check for every event recurrence if it is on the target date
                 while (currentEventStart <= eventUntil){
-                    if (isSameDayAndMonthYear(currentEventStart, targetDate) && isAsked(event.summary.value,constraints)){
+                    if (isSameDayAndMonthYear(currentEventStart, targetDate) && isAsked(event.summary.value,constraints,groups)){
                         // If the event is on the target date, we need to update the start and end date of the event
                         // And then add it to the list of events 
                         const updatedStartDate = new Date(currentEventStart);
@@ -91,12 +107,13 @@ const parseICSFile = async (data,constraints) => {
                 }
                 return false
             }            
-            return isSameDayAndMonthYear(eventStart, targetDate) && isAsked(event.summary.value,constraints);
+            return isSameDayAndMonthYear(eventStart, targetDate) && isAsked(event.summary.value,constraints,groups);
         });
         
         console.log("[INFO] Done!")
         // Sort events by start date
-        eventsForToday.sort((a,b)=>{return new Date(a.dtstart.value) - new Date(b.dtstart.value)})
+        if (!(constraints && groups))
+            eventsForToday.sort((a,b)=>{return new Date(a.dtstart.value) - new Date(b.dtstart.value)})
         return [eventsForToday,SUCCESS];
     } catch (error) {
         console.error('[ERROR] Error while parsing the ICS file:', error);
@@ -104,16 +121,19 @@ const parseICSFile = async (data,constraints) => {
     }
 };
 
-export const getData = async (path,constraints=null) => {
+export const getData = async (path,constraints=null,groups=null) => {
     try {
         console.log(`[INFO] Asking for : ${path}...`)
-        if (constraints !== null && constraints?.length >0)
-            console.log(`[INFO] Constraints : ${JSON.stringify(constraints)}`)
+        if (constraints && groups){
+            console.log(`[INFO] UE : ${JSON.stringify(constraints)}`)
+            console.log(`[INFO] Groups : ${groups}`)
+        }
+
         // Get the ICS file
         const response = await api.get(path);
         console.log("[INFO] Data loaded")
         // Parse the ICS file
-        return parseICSFile(response.data,constraints)
+        return parseICSFile(response.data,constraints,groups)
     } catch (error) {
         console.error('[ERROR] Error while getting the ICS file:', error);
         return [[],ERROR];

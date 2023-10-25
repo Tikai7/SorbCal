@@ -2,7 +2,6 @@
 import Personal from '../screens/Personal';
 import Acceuil from '../screens/Acceuil';
 import AcceuilHeader from '../components/AcceuilHeader';
-import { Dimensions } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import CustomTab from '../components/CustomTab';
 

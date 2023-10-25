@@ -7,10 +7,11 @@ import UEModal from "./UEModal";
 import UECalendar from "./UECalendar";
 
 export default function PersonalCalendar() {
-    const {myUE,myCalendar} = useContext(UserData)
+    const {myUE} = useContext(UserData)
     const [createModal,setCreateModal] = useState(false)
 
     const lottieRef = useRef(null)
+
     useEffect(() => {
         // Reset animation on each render
         if (lottieRef.current) {
@@ -51,7 +52,7 @@ export default function PersonalCalendar() {
             </TouchableOpacity>}
             
             {myUE?.length > 0 && 
-                <UECalendar />
+                <UECalendar handleCreate={handleCreate}/>
             }
 
         </View>

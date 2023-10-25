@@ -73,6 +73,19 @@ export const buttonStyle = StyleSheet.create({
 		alignItems:"center",
 		justifyContent:"center",
 	},
+	secondaryButton:{
+		backgroundColor: colorStyle.white,
+		width:"85%",
+		height: 50,
+		padding:"3%",
+		paddingHorizontal:"5%",
+		margin:"1%",
+		borderRadius:10,
+		alignItems:"center",
+		justifyContent:"center",
+		borderWidth:1,
+		borderColor:colorStyle.secondary,
+	},
 });
 
 export const textStyle = StyleSheet.create({
@@ -118,7 +131,13 @@ export const textStyle = StyleSheet.create({
 		fontSize: fontStyle.medium,
 		color: colorStyle.white,
 		textAlign: 'left',
-	}
+	},
+	seconaryText:{
+		fontWeight: "600",
+		fontSize: fontStyle.medium,
+		color: colorStyle.secondary,
+		textAlign: 'left',
+	},
 });	
 
 export const containerStyle = StyleSheet.create({
@@ -241,5 +260,19 @@ export const containerStyle = StyleSheet.create({
 		paddingBottom:"5%",
 		alignItems:"center",
 		backgroundColor: colorStyle.primary,
-	}
+	},
+	safeAreaContainer:{
+		flex:1,
+		backgroundColor:colorStyle.primary,
+		justifyContent:"center",
+		alignItems:"center"
+	},
+	groupContainer:{
+		width:"100%",
+		height:"auto",
+		flexDirection:"row",
+		alignItems:"center",
+		flexWrap:"wrap",
+		justifyContent:"flex-start",
+	},
 });

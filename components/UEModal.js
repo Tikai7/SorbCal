@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState,useContext } from 'react';
-import { SafeAreaView,Text,TouchableOpacity,ScrollView,View } from 'react-native';
+import { SafeAreaView,Text,TouchableOpacity,ScrollView,View, Modal } from 'react-native';
 import { containerStyle,textStyle,buttonStyle,colorStyle, fontStyle } from '../styles/mainstyle';
 import { allUEsorted } from '../utils/AllParcours';
 import { Ionicons } from '@expo/vector-icons'; 
 import { UserData } from '../context/contextData';
+import TDModal from './TDModal';
 
 export default function UEModal({handleCreate}){
     const [allUE,setAllUE] = useState([])
     const [falseLvl,setFalseLvl] = useState("M1")
-    const {setMyUE,setMyLVL} = useContext(UserData)
+    const [showGroupe,setShowGroupe] = useState(false)
 
     function renderUE(element,index){
         return (
@@ -24,10 +25,11 @@ export default function UEModal({handleCreate}){
         )
     }
 
-    function finishCreate(){
-        setMyUE([...allUE])
-        setMyLVL(falseLvl)
-        handleCreate()
+    function handleNext(){
+        if (allUE.length == 0)
+            return
+        
+        setShowGroupe(old => !old)
     }
 
     function addUE(element){
@@ -76,14 +78,17 @@ export default function UEModal({handleCreate}){
 
     function renderFooter(){
         return(
-            <TouchableOpacity onPress={finishCreate} style={{...buttonStyle.primaryButton,marginTop:"5%"}}>
-                <Text style={textStyle.primaryText}>Créer EDT</Text>
+            <TouchableOpacity onPress={handleNext} style={{...buttonStyle.primaryButton,marginTop:"5%"}}>
+                <Text style={textStyle.primaryText}>Suivant</Text>
             </TouchableOpacity>
         )
     }
 
     return (
-        <SafeAreaView style={{flex:1,backgroundColor:colorStyle.primary,justifyContent:"center",alignItems:"center"}}> 
+        <SafeAreaView style={containerStyle.safeAreaContainer}> 
+            <Modal visible={showGroupe} animationType="slide">
+                <TDModal  falseLvl={falseLvl} handleCreate={handleCreate} handleReturn={handleNext} allUE={allUE} />
+            </Modal>
             <View style={{...containerStyle.drawerButtonContainer,justifyContent:"center",marginTop:"5%"}}>
                 <Ionicons name="ios-school-outline" size={30} color={colorStyle.white} />
                     <Text style={{

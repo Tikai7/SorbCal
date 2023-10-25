@@ -5,6 +5,7 @@ import { getData } from '../server/Server';
 import { UserData } from '../context/contextData';
 import CalendarTab from './CalendarTab';
 import { getParcoursOfMyUE } from '../utils/AllParcours';
+import { clearAll, getMyData } from '../utils/Functions';
 
 const Drawer = createDrawerNavigator();
 
@@ -22,36 +23,47 @@ export default function AcceuilDrawer({}) {
     const [myUE,setMyUE] = useState([])
     const [myLVL,setMyLVL] = useState("M1")
     const [myCalendar,setMyCalendar] = useState([])
+    const [myGroups,setMyGroups] = useState({})
     const options = { header : () => null}
 
     useEffect(()=>{
-
-        async function getMyCalendar(){
+        async function getMyCalendar(ues,lvl,grp){
             console.log("[INFO] Getting my calendar")
+            let cpt = 0
+            while (ues === null || lvl === null || grp === null){
+                ues = myUE
+                lvl = myLVL
+                grp = myGroups
+                cpt++
+                if (cpt >1)
+                    return;
+            }
+
             const tempCalendar = []
-            const myParcours = getParcoursOfMyUE(myUE,myLVL)
+            const myParcours = getParcoursOfMyUE(ues,lvl)
             setLoading(true)
             for (const parcour of myParcours){
-                let path = `${parcour}/${myLVL}_${parcour}/`            
+                let path = `${parcour}/${lvl}_${parcour}/`            
                 // Only for special courses, because the API works differently
                 if (parcour === "STL-INSTA"){
                     path = "STL/M2_STL-INSTA/"
                     setMyLVL("M2")
                 }
                 else if (parcour === "DIGITAL")
-                    path =`RES/${myLVL}_RES-EIT-Digital/`;
+                    path =`RES/${lvl}_RES-EIT-Digital/`;
                 else if (parcour === "RES-ESIEE-IT")
-                    path =`RES/${myLVL}_RES-ITESCIA/`;
+                    path =`RES/${lvl}_RES-ITESCIA/`;
                 else if (parcour === "MSI")
-                    path =`SFPN/${myLVL}_SFPN-AFTI/`;
+                    path =`SFPN/${lvl}_SFPN-AFTI/`;
                 
-                const [data,state] = await getData(path,myUE)
+                const [data,state] = await getData(path,ues,grp)
                 if (state)
                     tempCalendar.push(...data)
                 else
                     console.log("Error while fetching data")
                 
             }
+            tempCalendar.sort((a,b)=>{return new Date(a.dtstart.value) - new Date(b.dtstart.value)})
             setMyCalendar([...tempCalendar])
             setLoading(false)
         }
@@ -87,13 +99,27 @@ export default function AcceuilDrawer({}) {
             setLoading(false)
         }
 
-        if (myUE.length > 0 && active !== "Acceuil")
-            getMyCalendar()
-        else
-            getCalendar()
+        async function verifyIfIcan(){
+            // await clearAll()
+            const ues = await getMyData("myUE")
+            const lvl = await getMyData("myLVL")
+            const grp = await getMyData("myGroups")
 
+            setMyUE(ues)
+            setMyLVL(lvl)
+            setMyGroups(grp)
 
-    },[parcours,niveau,refreshing,myUE])
+            if (active === "Acceuil"){
+                await getCalendar()
+                return;
+            }
+
+            await getMyCalendar(ues,lvl,grp)
+        }
+
+        verifyIfIcan()
+
+    },[parcours,niveau,refreshing,active])
 
     return (
         <UserData.Provider value={{
@@ -109,6 +135,7 @@ export default function AcceuilDrawer({}) {
             myUE,setMyUE,
             myLVL,setMyLVL,
             myCalendar,setMyCalendar,
+            myGroups,setMyGroups
         }}>
             <Drawer.Navigator
                 drawerContent={(props) => <CustomDrawer {...props} />}

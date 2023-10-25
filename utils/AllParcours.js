@@ -82,7 +82,7 @@ export function getParcoursOfMyUE(myUE,lvl){
 	parcours = []
 	for (const ue of myUE){
 		for (const parcour in allUE[lvl]){
-			if (allUE[lvl][parcour].includes(ue))
+			if (allUE[lvl][parcour].includes(ue) && !parcours.includes(parcour))
 				parcours.push(parcour)
 		}
 	}
