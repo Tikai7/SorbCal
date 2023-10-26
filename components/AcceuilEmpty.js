@@ -38,7 +38,7 @@ export default function AcceuilEmpty({isPersonal}){
                 </View>
                 <View style={containerStyle.textContainer}>
                     <Text style={textStyle.subtitle}>Vous n'avez rien aujourd'hui !</Text>
-                    {!isPersonal && <Text style={textStyle.subsubtitle}>Selectionner un autre parcours</Text>}
+                    {!isPersonal && <Text style={textStyle.subsubtitle}>Sélectionner un autre parcours</Text>}
                 </View>
                 <View>
                     <LottieView 

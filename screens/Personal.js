@@ -8,11 +8,10 @@ import AcceuilEmpty from '../components/AcceuilEmpty';
 import PersonalCalendar from '../components/PersonalCalendar';
 
 export default function Personal(){
-    const {loading,myCalendar} = useContext(UserData)
-
+    const {loading,myCalendar,myUE} = useContext(UserData)
     return (
         <View style={containerStyle.container}>
-            {loading ? <Loading/> : true ? <PersonalCalendar/> : <AcceuilEmpty isPersonal={true}/>}
+            {loading ? <Loading/> : (!(myCalendar.length > 0)  && myUE?.length >0) ? <AcceuilEmpty isPersonal={true}/> : <PersonalCalendar/>}
         </View>
     );
 }

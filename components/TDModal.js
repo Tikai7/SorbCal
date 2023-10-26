@@ -15,24 +15,32 @@ export default function TDModal({handleCreate,handleReturn,allUE,falseLvl}){
     allUE.forEach((ue) => {
         initialState[ue] = 1;
     });
-
     const [groupsSelected, setGroupsSelected] = useState(initialState);
 
     function renderHeader(){
         return(
-            <View style={{...containerStyle.drawerButtonContainer,justifyContent:"center",marginTop:"5%"}}>
-                <TouchableOpacity onPress={handleReturn}>
-                    <Ionicons name="arrow-back" size={30} color={colorStyle.white} />
-                </TouchableOpacity>
-                <Text style={{
-                    ...textStyle.subtitle,
+            <View style={{flexGrow:1}}>
+                <View style={{...containerStyle.drawerButtonContainer,justifyContent:"flex-start",marginTop:"5%"}}>
+                    <TouchableOpacity onPress={handleReturn}>
+                        <Ionicons name="arrow-back" size={30} color={colorStyle.white} />
+                    </TouchableOpacity>
+                    <Text style={{
+                        ...textStyle.subtitle,
+                        color:colorStyle.white,
+                        fontSize:fontStyle.lessBig,
+                        paddingTop:"2%",
+                        paddingLeft:"5%"
+                    }}>Sélectionner vos groupes</Text>
+                </View> 
+                {falseLvl === "M2" && <Text style={{
+                    ...textStyle.subsubtitle,
+                    marginTop:"-5%",
+                    marginRight:"5%",
+                    paddingBottom:"2%",
                     color:colorStyle.white,
-                    fontSize:fontStyle.lessBig,
-                    paddingTop:"2%",
-                    paddingLeft:"5%"
-                }}>Sélectionner vos groupes</Text>
-            </View>
-            
+                    textAlign:"right"
+                }}>N'importe si vous en avez pas</Text>}
+            </View>    
         )
     }
 
