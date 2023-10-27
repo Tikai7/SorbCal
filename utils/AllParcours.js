@@ -17,7 +17,7 @@ export const allUE = {
 		RES : ["RTEL","ARES","PROGRES"],
 		SAR : ["PSCR","NOYAU"],
 		SESI : ["MOBJ","ARCHI","SIGNAL","VLSI","ESA"],
-		STL : ["ALGAV","IL","Anglais","DLP"],
+		STL : ["ALGAV","IL","Anglais","DLP","OUV"],
 		SFPN : ["MODEL","COMPLEX","BDD","PPAR","SC"],
 		DIGITAL : ["SIGCOM","COMNET"],
 		MSI : ["AFORP"],
@@ -44,7 +44,7 @@ export const allUE = {
 export const allUEsorted = {
 	"M1" : [
 		"BIMA","MAPSI","MLBDA","LRC","MOGPL","AAGB","Maths","QCLG","QPh4CS","RTEL","ARES","PROGRES","PSCR","NOYAU","MOBJ","ARCHI","SIGNAL",
-		"VLSI","ESA","ALGAV","IL","Anglais","DLP","MODEL","COMPLEX","BDD","PPAR","SC","OQR"
+		"VLSI","ESA","ALGAV","IL","Anglais","DLP","MODEL","COMPLEX","BDD","PPAR","SC","OQR","OUV"
 	].sort(),
 	"M2" : [
 		"VISION","MAPIMED","TADI","IG3DA","RDFIA","PRAT","BIOMED","RLD","BDLE","REDS","XAI","AMAL","LODAS","MOSIMA","COCOMA","MAOA","MADI","IAR","EVHI",
@@ -144,6 +144,7 @@ export const allCodeUE = {
 	"ALASCA" :"MU5IN551",
 	"AAGA" : "MU5IN550",
 	"GPSTL":"5I558",
+	"OUV" : "MU4IN511"
 }
 
 
