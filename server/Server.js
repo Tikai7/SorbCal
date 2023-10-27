@@ -1,8 +1,7 @@
 import axios from "axios";
 import base64 from "react-native-base64";
-import ical from "cal-parser"
 import { parseICS } from "../utils/Parser";
-
+import { allCodeUE } from "../utils/AllParcours";
 
 const SUCCESS = true
 const ERROR = false
@@ -40,7 +39,7 @@ function isSameDayAndMonthYear(date1, date2) {
 }
 
 function isAsked(eventValue,constraintsUE,groupsTME){
-    const alwaysValid = ["CS","Cours","CM","ER","ATRIUM"]
+    const alwaysValid = ["CS","Cours","CM","ER","ATRIUM","Audit","FORENSIC","Stage","Réunion","Travaux"]
     // Regex for knowing if TME or TD is followed by a number
     const patternTME = /TME(\d+)/; 
     const patternTD = /TD(\d+)/; 
@@ -50,7 +49,7 @@ function isAsked(eventValue,constraintsUE,groupsTME){
 
     for (const str of constraintsUE) {
 
-        if (eventValue.includes(str) && (eventValue.includes("TD"+groupsTME[str]) || eventValue.includes("TME"+groupsTME[str])))
+        if (eventValue.includes(allCodeUE[str]) && (eventValue.includes("TD"+groupsTME[str]) || eventValue.includes("TME"+groupsTME[str])))
             return true
 
         if (eventValue.match(patternTME) && eventValue.match(patternTD))
