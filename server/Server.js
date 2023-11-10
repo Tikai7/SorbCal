@@ -39,7 +39,7 @@ function isSameDayAndMonthYear(date1, date2) {
 }
 
 function isAsked(eventValue,constraintsUE,groupsTME){
-    const alwaysValid = ["CS","Cours","CM","ER","ATRIUM","Audit","FORENSIC","Stage","Réunion","Travaux"]
+    const alwaysValid = ["CS","Cours","CM","ER","ATRIUM","Audit","FORENSIC","Stage","Réunion","Travaux","Exam"]
     // Regex for knowing if TME or TD is followed by a number
     const patternTME = /TME(\d+)/; 
     const patternTD = /TD(\d+)/; 
