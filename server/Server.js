@@ -114,7 +114,6 @@ const parseICSFile = async (data,constraints,groups) => {
 
             return isSameDayAndMonthYear(eventStart, targetDate) && isAsked(event.summary.value,constraints,groups);
         });
-        console.log(eventsForToday.length)
         console.log("[INFO] Done!")
         // Sort events by start date
         if (!(constraints && groups))
