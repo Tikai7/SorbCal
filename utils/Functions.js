@@ -31,3 +31,20 @@ export const clearAll = async () => {
         console.error('Error clearing all items from AsyncStorage:', e);
     }
 };
+
+
+export const convertDateToString = (date) => {
+    // Convert date to string and add a 0 if needed
+    avoidData = ["8","9"]
+    if (!(date instanceof Date)) 
+        date = new Date(date)
+    stringDate = date.getHours() + "h" + date.getMinutes()
+
+    while (stringDate.length < 5 && avoidData.includes(stringDate[0])) 
+        stringDate = "0"+stringDate
+    if (stringDate.length < 5)
+        stringDate = stringDate + "0"
+
+    return stringDate
+}
+

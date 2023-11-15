@@ -58,7 +58,6 @@ function isAsked(eventValue,constraintsUE,groupsTME){
         for (const validStr of alwaysValid) {
             if (eventValue.includes(validStr) && eventValue.includes(str))
                 return true
-            
         }
     }
 }
@@ -77,6 +76,8 @@ const parseICSFile = async (data,constraints,groups) => {
         const eventsForToday = parsedData.events.filter((event) => {
             // Get the start and end date of the event
             const eventStart = new Date(event.dtstart.value);
+            const eventEnd = new Date(event.dtend.value);
+
             // const eventEnd = new Date(event.dtend.value);
             // Each event can be recurring, so we need to check if one of the recurring events is on the target date
             if(event?.recurrenceRule && event?.recurrenceRule?.options && event?.recurrenceRule?.options?.until){
@@ -88,17 +89,16 @@ const parseICSFile = async (data,constraints,groups) => {
                         // If the event is on the target date, we need to update the start and end date of the event
                         // And then add it to the list of events 
                         const updatedStartDate = new Date(currentEventStart);
-                        updatedStartDate.setFullYear(targetDate.getFullYear());
-                        updatedStartDate.setMonth(targetDate.getMonth());
                         updatedStartDate.setDate(targetDate.getDate());
-                    
+                        updatedStartDate.setHours(event.dtstart.value.getUTCHours(), event.dtstart.value.getMinutes());
+
                         const updatedEndDate = new Date(currentEventStart);
-                        updatedEndDate.setFullYear(targetDate.getFullYear());
-                        updatedEndDate.setMonth(targetDate.getMonth());
                         updatedEndDate.setDate(targetDate.getDate());
-                    
+                        updatedEndDate.setHours(event.dtend.value.getUTCHours(), event.dtend.value.getMinutes());
+              
                         event.dtstart.value = updatedStartDate.toISOString();
                         event.dtend.value = updatedEndDate.toISOString();
+                        
                         return true
                     }
                     // Pass to the next recurrence
@@ -106,9 +106,15 @@ const parseICSFile = async (data,constraints,groups) => {
                 }
                 return false
             }            
+
+            eventStart.setHours(event.dtstart.value.getUTCHours(), event.dtstart.value.getMinutes())
+            eventEnd.setHours(event.dtend.value.getUTCHours(), event.dtend.value.getMinutes())
+            event.dtstart.value = eventStart.toISOString();
+            event.dtend.value = eventEnd.toISOString();
+
             return isSameDayAndMonthYear(eventStart, targetDate) && isAsked(event.summary.value,constraints,groups);
         });
-        
+        console.log(eventsForToday.length)
         console.log("[INFO] Done!")
         // Sort events by start date
         if (!(constraints && groups))

@@ -1,7 +1,8 @@
 import React, { useContext, useEffect,useRef } from 'react';
-import { View, Text,FlatList,Animated,RefreshControl } from 'react-native';
-import { containerStyle, fontStyle, textStyle } from '../styles/mainstyle';
-import { allUE,colorParcours } from '../utils/AllParcours';
+import { View,FlatList,Animated,RefreshControl } from 'react-native';
+import { containerStyle } from '../styles/mainstyle';
+import { allUE } from '../utils/AllParcours';
+import { renderPlanning } from './RenderPlaning';
 import { UserData } from '../context/contextData';
 import PlanningHeader from './PlanningHeader';
  
@@ -44,60 +45,12 @@ export default function AcceuilCalendar({myEDT,calendar}){
         setRefreshing((old) => !old);
     };
 
-    const convertDateToString = (date) => {
-        // Convert date to string and add a 0 if needed
-        avoidData = ["8","9"]
-        if (!(date instanceof Date)) 
-            date = new Date(date)
-        stringDate = date.getUTCHours() + "h" + date.getMinutes()
-
-        while (stringDate.length < 5 && avoidData.includes(stringDate[0])) 
-            stringDate = "0"+stringDate
-        if (stringDate.length < 5)
-            stringDate = stringDate + "0"
-
-        return stringDate
-    }
-
-    function renderPlanning(item,value) {
-        const itemValue = item.summary?.value.substring(item.summary?.value.indexOf('-') + 1);
-        const itemLocation = item.location?.value
-        const itemBegin = convertDateToString(item.dtstart?.value)
-
-        return (
-            <Animated.View 
-                // style={{...containerStyle.planningContainer,backgroundColor:colorParcours[niveau][checkParcours(itemValue)]}}
-                style={[
-                    {...containerStyle.planningContainer,backgroundColor:colorParcours[niveau][checkParcours(itemValue)]},
-                    {
-                    opacity: value,
-                    transform: [
-                        {
-                        translateY: value.interpolate({
-                            inputRange: [0, 1],
-                            outputRange: [50, 0],
-                        }),
-                        },
-                    ],
-                    },
-                ]}
-                        
-                >
-            {/* <View style={containerStyle.planningContainer}> */}
-                <Text style={{...textStyle.planningText,fontSize:fontStyle.lessBig}}>{itemValue}</Text>
-                <Text style={{...textStyle.planningText,fontSize:fontStyle.medium}}>{itemBegin}</Text>
-                <Text style={{...textStyle.planningText,fontSize:fontStyle.medium}}>{itemLocation}</Text> 
-            </Animated.View >
-        );
-    }
-
-    
     return (
         <View style={containerStyle.safeContainer}>
             <FlatList
                 ListHeaderComponent={<PlanningHeader myEDT={myEDT}/>}
                 data={calendar}
-                renderItem={({ item }) => renderPlanning(item,animatedValues[calendar.indexOf(item)])}
+                renderItem={({ item }) => renderPlanning(item,animatedValues[calendar.indexOf(item)],checkParcours,niveau)}
                 keyExtractor={(_,index)=>index}
                 ListFooterComponent={<View style={{height:50}}></View>}
                 refreshControl={
