@@ -56,6 +56,9 @@ export const allUEsorted = {
 }
 
 export const allCodeUE = {
+	"MODEL" : "MU4IN901",
+	"PPAR" : "MU4IN903",
+	"COMPLEX" : "MU4IN900",
 	"MOGPL" : "MU4IN200",
 	"MOSIMA" : "MU5IN254",
 	"COCOMA" : "MU5IN250",
@@ -129,7 +132,7 @@ export const allCodeUE = {
 	"PBD" : "MU5IN156",
 	"HLS" : "MU5IN156",
 	"COCCA" : "MU5IN164",
-	"SC" : "MU4IN900",
+	"SC" : "MU4IN905",
 	"CM": "MU5IN974",
 	"SCA" : "MU5IN954",
 	"IL":"MU4IN502",

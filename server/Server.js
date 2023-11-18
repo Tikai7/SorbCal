@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { all } from "axios";
 import base64 from "react-native-base64";
 import { parseICS } from "../utils/Parser";
 import { allCodeUE } from "../utils/AllParcours";
@@ -47,19 +47,22 @@ function isAsked(eventValue,constraintsUE,groupsTME){
     if (constraintsUE === null && !constraintsUE?.length > 0 || groupsTME === null && !groupsTME?.length > 0)
         return true
 
-    for (const str of constraintsUE) {
+    for (const str of constraintsUE) {        
+        if (!eventValue.includes(allCodeUE[str]))
+            continue
 
-        if (eventValue.includes(allCodeUE[str]) && (eventValue.includes("TD"+groupsTME[str]) || eventValue.includes("TME"+groupsTME[str])))
+        if ((eventValue.includes("TD"+groupsTME[str]) || eventValue.includes("TME"+groupsTME[str])))
             return true
 
-        if (eventValue.match(patternTME) && eventValue.match(patternTD))
+        if (!eventValue.match(patternTME) && !eventValue.match(patternTD))
             return true
-        
+    
         for (const validStr of alwaysValid) {
-            if (eventValue.includes(validStr) && eventValue.includes(str))
+            if (eventValue.includes(validStr))
                 return true
         }
     }
+
 }
 
 const parseICSFile = async (data,constraints,groups) => {
@@ -70,7 +73,7 @@ const parseICSFile = async (data,constraints,groups) => {
         const oneWeek = 7
         // Set the time of the target date to midnight
         targetDate.setHours(0, 0, 0, 0);
-        targetDate.setDate(targetDate.getDate());
+        targetDate.setDate(targetDate.getDate()-2);
         // Filter events for the target date
 
         const eventsForToday = parsedData.events.filter((event) => {

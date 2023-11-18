@@ -1,6 +1,6 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import CustomDrawer from '../components/CustomDrawer';
-import { useState,useEffect } from 'react';
+import { useState,useEffect,useRef } from 'react';
 import { getData } from '../server/Server';
 import { UserData } from '../context/contextData';
 import CalendarTab from './CalendarTab';
@@ -25,6 +25,10 @@ export default function AcceuilDrawer({}) {
     const [myCalendar,setMyCalendar] = useState([])
     const [myGroups,setMyGroups] = useState({})
     const options = { header : () => null}
+
+    const refreshCond = useRef(refreshing);
+    const parcourCond = useRef(parcours);
+    const niveauCond = useRef(niveau);
 
     useEffect(()=>{
         async function getMyCalendar(ues,lvl,grp){
@@ -109,16 +113,28 @@ export default function AcceuilDrawer({}) {
             setMyLVL(lvl)
             setMyGroups(grp)
 
+            reseachCond = (parcourCond.current !== parcours || niveauCond.current !== niveau || refreshCond.current !== refreshing)
+            personalCond = (refreshCond.current !== refreshing)
+            
             if (active === "Acceuil"){
-                await getCalendar()
+                if (calendar.length === 0 || reseachCond) {
+                    await getCalendar()
+                    refreshCond.current = refreshing;
+                    parcourCond.current = parcours;
+                    niveauCond.current = niveau;
+                }
                 return;
             }
 
-            await getMyCalendar(ues,lvl,grp)
+            if ((active !== "Acceuil" && myCalendar.length === 0) || personalCond)
+                await getMyCalendar(ues,lvl,grp)
+
+            refreshCond.current = refreshing;
+            parcourCond.current = parcours;
+            niveauCond.current = niveau;
         }
 
         verifyIfIcan()
-
     },[parcours,niveau,refreshing,active])
 
     return (
