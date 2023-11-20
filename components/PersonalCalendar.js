@@ -6,9 +6,8 @@ import LottieView from "lottie-react-native";
 import UEModal from "./UEModal";
 import UECalendar from "./UECalendar";
 
-export default function PersonalCalendar() {
+export default function PersonalCalendar({createModal,handleCreate}) {
     const {myUE} = useContext(UserData)
-    const [createModal,setCreateModal] = useState(false)
 
     const lottieRef = useRef(null)
 
@@ -22,9 +21,6 @@ export default function PersonalCalendar() {
         }
     }, [lottieRef.current]);
 
-    function handleCreate(){
-        setCreateModal((old) => !old)
-    }
 
     return (
         <View style={containerStyle.emptyContainer}>

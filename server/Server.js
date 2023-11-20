@@ -43,20 +43,37 @@ function isAsked(eventValue,constraintsUE,groupsTME){
     // Regex for knowing if TME or TD is followed by a number
     const patternTME = /TME(\d+)/; 
     const patternTD = /TD(\d+)/; 
+    // Problematic UE
+    const probUE = "SC"
+    const probUEId = "MU4IN905"
+    const similarCode = "MU4IN900"
 
     if (constraintsUE === null && !constraintsUE?.length > 0 || groupsTME === null && !groupsTME?.length > 0)
         return true
 
-    for (const str of constraintsUE) {        
-        if (!eventValue.includes(allCodeUE[str]))
+    for (const str of constraintsUE) {   
+
+        // If the event is not in the list of the asked UE
+        if (!eventValue.includes(allCodeUE[str]) && allCodeUE[str] != probUEId)
             continue
 
+        // If the event asked is Complex, and the current event is not Complex
+        if (allCodeUE[str] == similarCode && eventValue.includes(probUE))
+            continue
+
+        // If the event asked is SC, and the current event is not SC
+        if (allCodeUE[str] == probUEId && !eventValue.includes(probUE))
+            continue
+
+        // If the current event is a TME and the group is in the list of the asked groups
         if ((eventValue.includes("TD"+groupsTME[str]) || eventValue.includes("TME"+groupsTME[str])))
             return true
 
+        // If the current event is not a TD/TME of a specific group
         if (!eventValue.match(patternTME) && !eventValue.match(patternTD))
             return true
-    
+        
+        // If the current event is always valid
         for (const validStr of alwaysValid) {
             if (eventValue.includes(validStr))
                 return true
