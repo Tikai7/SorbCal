@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { headerStyle,textStyle,colorStyle } from '../styles/mainstyle';
 import { Entypo } from '@expo/vector-icons'; 
-import { Ionicons } from '@expo/vector-icons'; 
 
 export default function AcceuilHeader({route,navigation}) {  
     const headerName = {
@@ -11,6 +10,7 @@ export default function AcceuilHeader({route,navigation}) {
     }
 
     function handleDrawer(){
+        console.log(navigation.navigate)
         if (route.name === "PersonalCalendar")
             navigation.navigate("Acceuil")
         

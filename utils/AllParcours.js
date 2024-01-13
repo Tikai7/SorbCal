@@ -1,5 +1,14 @@
 import { Dimensions } from "react-native"
 
+
+const S1_Date = new Date()
+S1_Date.setMonth(0)
+S1_Date.setDate(13)
+const currentDate = new Date()
+
+const isS1 = currentDate.getMonth() < S1_Date.getMonth() || currentDate.getMonth() == S1_Date.getMonth() && currentDate.getDate() < S1_Date.getDate()
+
+
 export const width = Dimensions.get("window").width
 export const height = Dimensions.get("window").height
 
@@ -9,18 +18,18 @@ export const allParcours = [
 
 export const allUE = {
 	M1 : {
-		IMA : ["BIMA","MAPSI"],
-		DAC : ["MLBDA","LRC"],
-		ANDROIDE : ["MOGPL"],
-		BIM : ["AAGB","Maths"],
+		IMA : ["BIMA","MAPSI","IG3D","ANGLAIS"],
+		DAC : ["MLBDA","LRC","DALAS","RITAL","ML","SAM","IAMSI","MLL"],
+		ANDROIDE : ["MOGPL","DJ","FoSyMa","IHM","RP","AROB"],
+		BIM : ["AAGB","Maths","SBAS","DeepLife","MMCN"],
 		IQ : ["QCLG","QPh4CS"],
-		RES : ["RTEL","ARES","PROGRES"],
-		SAR : ["PSCR","NOYAU"],
-		SESI : ["MOBJ","ARCHI","SIGNAL","VLSI","ESA"],
-		STL : ["ALGAV","IL","Anglais","DLP","OUV"],
-		SFPN : ["MODEL","COMPLEX","BDD","PPAR","SC"],
-		DIGITAL : ["SIGCOM","COMNET"],
-		MSI : ["AFORP"],
+		RES : ["RTEL","ARES","PROGRES","MOB","ALGORES","COMNUM","CRV"],
+		SAR : ["PSCR","NOYAU","PLN","AR","SFTR","SRCS","SAS"],
+		SESI : ["MOBJ","ARCHI","SIGNAL","VLSI","ESA","CGE","FPGA","MULTI","IOC","ECFA"],
+		STL : ["ALGAV","IL","Anglais","DLP","OUV","CA","PAF","PC2R","APS","CPA","CPS"],
+		SFPN : ["MODEL","COMPLEX","BDD","PPAR","SC","ANUM","FLAG","ISEC"],
+		DIGITAL : ["SIGCOM","COMNET","SDM","WIMOB","CLOUD"],
+		MSI : ["AFORP","SECOM","PCFS","PROJET"],
 		"RES-ESIEE-IT" : ["OQR"],
 	},
 	M2 :{
@@ -42,9 +51,13 @@ export const allUE = {
 }
 
 export const allUEsorted = {
-	"M1" : [
+	"M1" : isS1 ? [
 		"BIMA","MAPSI","MLBDA","LRC","MOGPL","AAGB","Maths","QCLG","QPh4CS","RTEL","ARES","PROGRES","PSCR","NOYAU","MOBJ","ARCHI","SIGNAL",
 		"VLSI","ESA","ALGAV","IL","Anglais","DLP","MODEL","COMPLEX","BDD","PPAR","SC","OQR","OUV"
+	].sort() : [
+		"DJ","FoSyMa","IHM","RP","AROB","SBAS","DeepLife","MMCN","DALAS","RITAL","ML","SAM","IAMSI","IG3D","ANGLAIS","QIIntro","SDM","WIMOB","CLOUD",
+		"MOB","ALGORES","COMNUM","CRV","PLN","AR","SFTR","SRCS","SAS","CGE","FPGA","MULTI","IOC","ECFA","ANUM","FLAG","ISEC","SECOM","PCFS","PROJET",
+		"CA","PAF","PC2R","APS","CPA","MLL","CPS"
 	].sort(),
 	"M2" : [
 		"VISION","MAPIMED","TADI","IG3DA","RDFIA","PRAT","BIOMED","RLD","BDLE","REDS","XAI","AMAL","LODAS","MOSIMA","COCOMA","MAOA","MADI","IAR","EVHI",
@@ -56,6 +69,52 @@ export const allUEsorted = {
 }
 
 export const allCodeUE = {
+	"ANGLAIS": "ANGLAIS",
+	"DJ":"MU4IN204",
+	"FoSyMa" : "MU4IN202",
+	"IHM" : "MU4IN203",
+	"RP" : "MU4IN201",
+	"AROB" : "MU4IN207",
+	"SBAS" : "MU4IN701",
+	"DeepLife" : "MU4IN705",
+	"MMCN" : "MU4IN702",
+	"DALAS" : "MU4IN814",
+	"RITAL" : "MU4IN813",
+	"ML": "MU4IN811",
+	"SAM" : "MU4IN803",
+	"IAMSI" : "MU4IN806",
+	"MLL" : "MU4IN812",
+	"IG3D" : "MU4IN602",
+	"QIIntro" : "MU4INQ51",
+	"SDM" : "MU4INX21",
+	"WIMOB" : "MU4INX19",
+	"CLOUD" : "MU4INX30",
+	"MOB" : "MU4IN013",
+	"ALGORES" : "MU4IN011",
+	"COMNUM" : "MU4IN012",
+	"CRV" : "MU4IN019",
+	"PLN" : "MU4IN402",
+	"AR" : "MU4IN403",
+	"SFTR" : "MU4IN407",
+	"SRCS" : "MU4IN404",
+	"SAS" : "MU4IN405",
+	"CGE" : "MU4IN112",
+	"FPGA" : "MU4IN108",
+	"MULTI" : "MU4IN106",
+	"IOC" : "MU4IN109",
+	"ECFA" : "MU4EES18",
+	"ANUM" : "MU4IN910",
+	"FLAG" : "MU4IN902",
+	"ISEC": "MU4IN904",
+	"SECOM" : "MU4IN913",
+	"PCFS" : "MU4IN915",
+	"PROJET" : "MU4IN914",
+	"CA" : "MU4IN504",
+	"PAF" : "MU4IN510",
+	"PC2R" : "MU4IN507",
+	"APS" : "MU4IN503",
+	"CPA" : "MU4IN505",
+	"CPS" : "MU4IN506",
 	"MODEL" : "MU4IN901",
 	"PPAR" : "MU4IN903",
 	"COMPLEX" : "MU4IN900",
