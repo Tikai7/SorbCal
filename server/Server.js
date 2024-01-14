@@ -39,7 +39,7 @@ function isSameDayAndMonthYear(date1, date2) {
 }
 
 function isAsked(eventValue,constraintsUE,groupsTME){
-    const alwaysValid = ["CS","Cours","CM","ER","ATRIUM","Audit","FORENSIC","Stage","Réunion","Travaux","Exam","Métier","Conférence",'obligatoire',"soutenance"]
+    const alwaysValid = ["CS","Cours","CM","ER","ATRIUM","Audit","FORENSIC","Stage","Réunion","Travaux","Exam","Métier","Conférences",'obligatoire',"soutenance"]
     // Regex for knowing if TME or TD is followed by a number
     const patternTME = /TME(\d+)/; 
     const patternTD = /TD(\d+)/; 
@@ -90,7 +90,7 @@ const parseICSFile = async (data,constraints,groups) => {
         const oneWeek = 7
         // Set the time of the target date to midnight
         targetDate.setHours(0, 0, 0, 0);
-        targetDate.setDate(targetDate.getDate());
+        targetDate.setDate(targetDate.getDate()+2);
         // Filter events for the target date
 
         const eventsForToday = parsedData.events.filter((event) => {
@@ -152,11 +152,11 @@ export const getData = async (path,constraints=null,groups=null) => {
             console.log(`[INFO] UE : ${JSON.stringify(constraints)}`)
             console.log(`[INFO] Groups : ${groups}`)
         }
-
+        console.log(path)
         // Get the ICS file
         const response = await api.get(path);
         console.log("[INFO] Data loaded")
-        // Parse the ICS file
+        // Parse the ICS filea
         return parseICSFile(response.data,constraints,groups)
     } catch (error) {
         console.error('[ERROR] Error while getting the ICS file:', error);

@@ -18,7 +18,7 @@ export const allParcours = [
 
 export const allUE = {
 	M1 : {
-		IMA : ["BIMA","MAPSI","IG3D","ANGLAIS"],
+		IMA : ["BIMA","MAPSI","IG3D","ANGLAIS","Conférence Métiers"],
 		DAC : ["MLBDA","LRC","DALAS","RITAL","ML","SAM","IAMSI","MLL"],
 		ANDROIDE : ["MOGPL","DJ","FoSyMa","IHM","RP","AROB"],
 		BIM : ["AAGB","Maths","SBAS","DeepLife","MMCN"],
@@ -57,7 +57,7 @@ export const allUEsorted = {
 	].sort() : [
 		"DJ","FoSyMa","IHM","RP","AROB","SBAS","DeepLife","MMCN","DALAS","RITAL","ML","SAM","IAMSI","IG3D","ANGLAIS","QIIntro","SDM","WIMOB","CLOUD",
 		"MOB","ALGORES","COMNUM","CRV","PLN","AR","SFTR","SRCS","SAS","CGE","FPGA","MULTI","IOC","ECFA","ANUM","FLAG","ISEC","SECOM","PCFS","PROJET",
-		"CA","PAF","PC2R","APS","CPA","MLL","CPS"
+		"CA","PAF","PC2R","APS","CPA","MLL","CPS","Conférence Métiers"
 	].sort(),
 	"M2" : [
 		"VISION","MAPIMED","TADI","IG3DA","RDFIA","PRAT","BIOMED","RLD","BDLE","REDS","XAI","AMAL","LODAS","MOSIMA","COCOMA","MAOA","MADI","IAR","EVHI",
@@ -69,6 +69,7 @@ export const allUEsorted = {
 }
 
 export const allCodeUE = {
+	"Conférence Métiers" : "Conférence",
 	"ANGLAIS": "ANGLAIS",
 	"DJ":"MU4IN204",
 	"FoSyMa" : "MU4IN202",
