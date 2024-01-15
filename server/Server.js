@@ -82,7 +82,7 @@ function isAsked(eventValue,constraintsUE,groupsTME){
 
 }
 
-const parseICSFile = async (data,constraints,groups) => {
+const parseICSFile = async (data,constraints,groups,offset) => {
     try {
         console.log("[INFO] Parsing data...")
         const parsedData = parseICS(data)
@@ -90,7 +90,7 @@ const parseICSFile = async (data,constraints,groups) => {
         const oneWeek = 7
         // Set the time of the target date to midnight
         targetDate.setHours(0, 0, 0, 0);
-        targetDate.setDate(targetDate.getDate());
+        targetDate.setDate(targetDate.getDate()+offset);
         // Filter events for the target date
 
         const eventsForToday = parsedData.events.filter((event) => {
@@ -145,7 +145,7 @@ const parseICSFile = async (data,constraints,groups) => {
     }
 };
 
-export const getData = async (path,constraints=null,groups=null) => {
+export const getData = async (path,constraints=null,groups=null,offset=0) => {
     try {
         console.log(`[INFO] Asking for : ${path}...`)
         if (constraints && groups){
@@ -157,7 +157,7 @@ export const getData = async (path,constraints=null,groups=null) => {
         const response = await api.get(path);
         console.log("[INFO] Data loaded")
         // Parse the ICS filea
-        return parseICSFile(response.data,constraints,groups)
+        return parseICSFile(response.data,constraints,groups,offset)
     } catch (error) {
         console.error('[ERROR] Error while getting the ICS file:', error);
         return [[],ERROR];

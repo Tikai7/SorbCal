@@ -1,16 +1,14 @@
-import React, { useContext, useEffect,useRef } from 'react';
-import { View, Text,FlatList,Animated,RefreshControl } from 'react-native';
+import React, { useContext, useEffect,useRef,useState } from 'react';
+import { View, Text,FlatList,Animated,RefreshControl, Touchable, TouchableOpacity } from 'react-native';
 import { colorStyle, containerStyle, fontStyle, textStyle } from '../styles/mainstyle';
-import { allUE,colorParcours } from '../utils/AllParcours';
-import { convertDateToString } from '../utils/Functions';
+import { allUE } from '../utils/AllParcours';
 import { renderPlanning } from './RenderPlaning';
 import { UserData } from '../context/contextData'; 
-import { Feather } from '@expo/vector-icons'; 
+import { Feather,FontAwesome5 } from '@expo/vector-icons'; 
 
 export default function UECalendar({handleCreate}){
-    const {myLVL,myCalendar,setRefreshing} = useContext(UserData)
+    const {myLVL,myCalendar,setRefreshing,offset,setOffset,currentDate,setCurrentDate} = useContext(UserData)
     const animatedValues = useRef(myCalendar.map(() => new Animated.Value(0))).current;
-    const currentDate = new Date()
 
     useEffect(() => {
         const animations = myCalendar.map((_, index) => {
@@ -21,7 +19,7 @@ export default function UECalendar({handleCreate}){
             delay: index , // Delay each animation by 500 milliseconds
           });
         });
-    
+        
         Animated.sequence(animations).start();
     }, [animatedValues, myCalendar]);
 
@@ -40,12 +38,31 @@ export default function UECalendar({handleCreate}){
         return "IMA"
     }
 
+
+    function handleNextDay(){
+        setCurrentDate(old=>new Date(old.setDate(old.getDate()+1)))
+        setOffset(old=>old+1)
+    }
+
+    function handlePreviousDay(){
+        setCurrentDate(old=>new Date(old.setDate(old.getDate()-1)))
+        setOffset(old=>old-1)
+    }
+
     function UEHeader(){
         return(
             <View style={{...containerStyle.planningHeader,flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
                 <View style={{alignItems:"flex-start"}}>
                     <Text style={textStyle.subtitle}>Planning <Text style={{color:colorStyle.secondary}}>{"UE"}</Text></Text>
-                    <Text style={{...textStyle.subsubtitle,fontSize:fontStyle.medium}}>UE pour le {currentDate.getDate()}/{currentDate.getMonth()+1}/{currentDate.getFullYear()}</Text>
+                    <View style={{flexDirection:"row",alignItems:"center"}}>
+                        <TouchableOpacity onPress={handlePreviousDay} style={{marginRight:"4%"}}>
+                            <FontAwesome5 name="backward" size={16} color={colorStyle.primary} />
+                        </TouchableOpacity>
+                        <Text style={{...textStyle.subsubtitle,fontSize:fontStyle.medium}}>UE pour le {currentDate.getDate()}/{currentDate.getMonth()+1}/{currentDate.getFullYear()}</Text>
+                        <TouchableOpacity onPress={handleNextDay} style={{marginLeft:"4%"}}>
+                            <FontAwesome5 name="forward" size={16} color={colorStyle.primary} />
+                        </TouchableOpacity>
+                    </View>
                 </View>
                 <Feather  onPress={handleCreate} name="edit" size={24} color={colorStyle.secondary} />
             </View>

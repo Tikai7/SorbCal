@@ -24,12 +24,16 @@ export default function AcceuilDrawer({}) {
     const [myLVL,setMyLVL] = useState("M1")
     const [myCalendar,setMyCalendar] = useState([])
     const [myGroups,setMyGroups] = useState({})
+    const [offset,setOffset] = useState(0)
+    const [currentDate,setCurrentDate] = useState(new Date())
+
     const options = { header : () => null}
 
     const refreshCond = useRef(refreshing);
     const parcourCond = useRef(parcours);
     const niveauCond = useRef(niveau);
-
+    const offsetCond = useRef(offset);
+    
     useEffect(()=>{
         async function getMyCalendar(ues,lvl,grp){
             console.log("[INFO] Getting my calendar")
@@ -60,7 +64,7 @@ export default function AcceuilDrawer({}) {
                 else if (parcour === "MSI")
                     path =`SFPN/${lvl}_SFPN-AFTI/`;
                 
-                const [data,state] = await getData(path,ues,grp)
+                const [data,state] = await getData(path,ues,grp,offset)
                 if (state)
                     tempCalendar.push(...data)
                 else
@@ -114,7 +118,7 @@ export default function AcceuilDrawer({}) {
             setMyGroups(grp)
 
             reseachCond = (parcourCond.current !== parcours || niveauCond.current !== niveau || refreshCond.current !== refreshing)
-            personalCond = (refreshCond.current !== refreshing)
+            personalCond = (refreshCond.current !== refreshing || offsetCond.current !== offset)
             
             if (active === "Acceuil"){
                 if (calendar.length === 0 || reseachCond) {
@@ -127,7 +131,7 @@ export default function AcceuilDrawer({}) {
             }
 
             if ((active !== "Acceuil" && myCalendar.length === 0) || personalCond)
-                await getMyCalendar(ues,lvl,grp)
+                await getMyCalendar(ues,lvl,grp,offset)
 
             refreshCond.current = refreshing;
             parcourCond.current = parcours;
@@ -135,7 +139,7 @@ export default function AcceuilDrawer({}) {
         }
 
         verifyIfIcan()
-    },[parcours,niveau,refreshing,active])
+    },[parcours,niveau,refreshing,active,offset])
 
     return (
         <UserData.Provider value={{
@@ -151,7 +155,9 @@ export default function AcceuilDrawer({}) {
             myUE,setMyUE,
             myLVL,setMyLVL,
             myCalendar,setMyCalendar,
-            myGroups,setMyGroups
+            myGroups,setMyGroups,
+            offset,setOffset,
+            currentDate,setCurrentDate
         }}>
             <Drawer.Navigator
                 drawerContent={(props) => <CustomDrawer {...props} />}

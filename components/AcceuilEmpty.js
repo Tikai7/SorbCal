@@ -1,12 +1,14 @@
 import React from 'react';
 import { View,ScrollView,RefreshControl, Text, TouchableOpacity } from 'react-native';
 import LottieView from "lottie-react-native";
-import { buttonStyle, containerStyle, textStyle } from '../styles/mainstyle';
+import { buttonStyle, colorStyle, containerStyle, textStyle } from '../styles/mainstyle';
 import { useEffect,useContext,useRef } from 'react';
 import { UserData } from '../context/contextData';
+import { Feather,FontAwesome5 } from '@expo/vector-icons'; 
+
 
 export default function AcceuilEmpty({handleCreate,isPersonal}){
-    const {parcours,niveau,setRefreshing} = useContext(UserData)
+    const {parcours,niveau,setRefreshing,setOffset} = useContext(UserData)
     const lottieRef = useRef(null)
 
     useEffect(() => {
@@ -22,6 +24,15 @@ export default function AcceuilEmpty({handleCreate,isPersonal}){
     const onRefresh = () => {
         setRefreshing((old) => !old);
     };
+
+    function handleNextDay(){
+        setOffset(old=>old+1)
+    }
+
+    function handlePreviousDay(){
+        setOffset(old=>old-1)
+    }
+
 
     return (
         <ScrollView 
@@ -40,6 +51,16 @@ export default function AcceuilEmpty({handleCreate,isPersonal}){
                     <Text style={textStyle.subtitle}>Vous n'avez rien aujourd'hui !</Text>
                     {!isPersonal && <Text style={textStyle.subsubtitle}>Sélectionner un autre parcours</Text>}
                 </View>
+                {isPersonal && <View style={{flexDirection:"row"}}>
+                    <TouchableOpacity onPress={handlePreviousDay} style={{marginRight:"4%"}}>
+                        <FontAwesome5 name="backward" size={16} color={colorStyle.primary} />
+                    </TouchableOpacity>
+                    <Text style={textStyle.drawerText} >Un autre jour ?</Text>
+                    <TouchableOpacity onPress={handleNextDay} style={{marginLeft:"4%"}}>
+                        <FontAwesome5 name="forward" size={16} color={colorStyle.primary} />
+                    </TouchableOpacity>
+
+                </View>}
                 <View>
                     <LottieView 
                         ref={lottieRef}
