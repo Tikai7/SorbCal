@@ -126,6 +126,7 @@ export default function AcceuilDrawer({}) {
                     refreshCond.current = refreshing;
                     parcourCond.current = parcours;
                     niveauCond.current = niveau;
+                    offsetCond.current = offset;
                 }
                 return;
             }
@@ -136,6 +137,7 @@ export default function AcceuilDrawer({}) {
             refreshCond.current = refreshing;
             parcourCond.current = parcours;
             niveauCond.current = niveau;
+            offsetCond.current = offset;
         }
 
         verifyIfIcan()

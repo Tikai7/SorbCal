@@ -4,11 +4,11 @@ import LottieView from "lottie-react-native";
 import { buttonStyle, colorStyle, containerStyle, textStyle } from '../styles/mainstyle';
 import { useEffect,useContext,useRef } from 'react';
 import { UserData } from '../context/contextData';
-import { Feather,FontAwesome5 } from '@expo/vector-icons'; 
+import { FontAwesome5 } from '@expo/vector-icons'; 
 
 
 export default function AcceuilEmpty({handleCreate,isPersonal}){
-    const {parcours,niveau,setRefreshing,setOffset} = useContext(UserData)
+    const {parcours,niveau,setRefreshing,setOffset,setCurrentDate} = useContext(UserData)
     const lottieRef = useRef(null)
 
     useEffect(() => {
@@ -26,10 +26,12 @@ export default function AcceuilEmpty({handleCreate,isPersonal}){
     };
 
     function handleNextDay(){
+        setCurrentDate(old=>new Date(old.setDate(old.getDate()+1)))
         setOffset(old=>old+1)
     }
 
     function handlePreviousDay(){
+        setCurrentDate(old=>new Date(old.setDate(old.getDate()-1)))
         setOffset(old=>old-1)
     }
 

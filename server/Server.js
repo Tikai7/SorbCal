@@ -7,8 +7,8 @@ const SUCCESS = true
 const ERROR = false
 
 // Credentials for the caldav server
-const username= "student.master";
-const password= "guest"
+const username = "student.master";
+const password = "guest"
 const authHeader = 'Basic ' + base64.encode(`${username}:${password}`);
 
 // Create an axios instance
@@ -45,6 +45,8 @@ function isAsked(eventValue,constraintsUE,groupsTME){
     const patternTD = /TD(\d+)/; 
     // Problematic UE
     const probUE = "SC"
+    const probUEIDS2 = "MU4IN207"
+    const solutionUEID = "MU4IN210"
     const probUEId = "MU4IN905"
     const similarCode = "MU4IN900"
 
@@ -53,8 +55,14 @@ function isAsked(eventValue,constraintsUE,groupsTME){
 
     for (const str of constraintsUE) {   
 
+        // If the event is not in the list of the asked UE and the event is AROB
+        if (!eventValue.includes(allCodeUE[str]) && allCodeUE[str] == probUEIDS2)
+            // Check if the other eventID is in the list of the asked UE
+            if (!eventValue.includes(solutionUEID))
+                return true
+            
         // If the event is not in the list of the asked UE
-        if (!eventValue.includes(allCodeUE[str]) && allCodeUE[str] != probUEId)
+        if (!eventValue.includes(allCodeUE[str]) && allCodeUE[str] != probUEId && allCodeUE[str] != probUEIDS2)
             continue
 
         // If the event asked is Complex, and the current event is not Complex
