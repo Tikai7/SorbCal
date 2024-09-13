@@ -16,7 +16,7 @@ export default function DrawerHeader({text}) {
     return (
         <View style={containerStyle.drawerHeaderContainer}>
             <View style={{...containerStyle.drawerButtonContainer,justifyContent:"center",paddingBottom:"0%"}}>
-                <Ionicons name="ios-school-outline" size={30} color={colorStyle.white} />
+                <Ionicons name="school-outline" size={30} color={colorStyle.white} />
                 <Text style={{
                     ...textStyle.subtitle,
                     color:colorStyle.white,

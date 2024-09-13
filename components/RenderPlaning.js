@@ -5,7 +5,7 @@ import { colorParcours } from '../utils/AllParcours';
 import { convertDateToString } from '../utils/Functions';
 
 
-export function renderPlanning(item,value,checkParcours,niveau) {
+export function renderPlanning(item,value,checkParcours,niveau){
     const itemValue = item.summary?.value.substring(item.summary?.value.indexOf('-') + 1);
     const itemLocation = item.location?.value
     const itemBegin = convertDateToString(item.dtstart?.value)

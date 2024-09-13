@@ -38,8 +38,18 @@ function isSameDayAndMonthYear(date1, date2) {
     return date1?.getDate() === date2?.getDate() && date1?.getMonth() === date2?.getMonth() && date1?.getFullYear() === date2?.getFullYear();
 }
 
+function checkValidity(eventValue, alwaysValid){
+    for (const validStr of alwaysValid) {
+        if (eventValue.includes(validStr)){
+            return true
+        }
+    }
+    return false
+}
+
 function isAsked(eventValue,constraintsUE,groupsTME){
-    const alwaysValid = ["CS","Cours","CM","ER","ATRIUM","Audit","FORENSIC","Stage","Réunion","Travaux","Exam","Métier","Conférences",'obligatoire',"soutenance"]
+    const alwaysValid = ["ATRIUM","Anglais","Audit","FORENSIC","Stage","Réunion","Travaux","Métier","Conférences",'obligatoire',"soutenance"]
+    const alwaysValidAfterCheck = ["CS","Cours","CM","ER","Exam"]
     // Regex for knowing if TME or TD is followed by a number
     const patternTME = /TME(\d+)/; 
     const patternTD = /TD(\d+)/; 
@@ -49,20 +59,31 @@ function isAsked(eventValue,constraintsUE,groupsTME){
     const solutionUEID = "MU4IN210"
     const probUEId = "MU4IN905"
     const similarCode = "MU4IN900"
+    console.log("The event value : "+ eventValue)
 
-    if (constraintsUE === null && !constraintsUE?.length > 0 || groupsTME === null && !groupsTME?.length > 0)
+    if (constraintsUE === null && !constraintsUE?.length > 0 || groupsTME === null && !groupsTME?.length > 0){
+        console.log("[INFO] Step 0 : Returned because no constraints")
         return true
+    }
 
     for (const str of constraintsUE) {   
+        console.log("The current code : "+ allCodeUE[str])
+
+        const stateBefore = checkValidity(eventValue,alwaysValid)
+        if (stateBefore){
+            console.log("[INFO] Step 1 : Returned because it's always valid")
+            return true
+        }
 
         // If the event is not in the list of the asked UE and the event is AROB
-        if (!eventValue.includes(allCodeUE[str]) && allCodeUE[str] == probUEIDS2)
-            // Check if the other eventID is in the list of the asked UE
-            if (!eventValue.includes(solutionUEID))
-                return true
-            
+        // Check if the other eventID is in the list of the asked UE
+        if (!eventValue.includes(allCodeUE[str]) && allCodeUE[str] == probUEIDS2 && eventValue.includes(solutionUEID)){
+            console.log("[INFO] Step 2 : Returned because the event is AROB with bad code")
+            return true
+        }
+
         // If the event is not in the list of the asked UE
-        if (!eventValue.includes(allCodeUE[str]) && allCodeUE[str] != probUEId && allCodeUE[str] != probUEIDS2)
+        if (!eventValue.includes(allCodeUE[str]) && allCodeUE[str] != probUEId)
             continue
 
         // If the event asked is Complex, and the current event is not Complex
@@ -73,18 +94,24 @@ function isAsked(eventValue,constraintsUE,groupsTME){
         if (allCodeUE[str] == probUEId && !eventValue.includes(probUE))
             continue
 
+
         // If the current event is a TME and the group is in the list of the asked groups
-        if ((eventValue.includes("TD"+groupsTME[str]) || eventValue.includes("TME"+groupsTME[str])))
+        if ((eventValue.includes("TD"+groupsTME[str]) || eventValue.includes("TME"+groupsTME[str]))){
+            console.log("[INFO] Step 3 : Returned because it's a TME/TD of a specific group and UE")
             return true
+        }
 
         // If the current event is not a TD/TME of a specific group
-        if (!eventValue.match(patternTME) && !eventValue.match(patternTD))
+        if (!eventValue.match(patternTME) && !eventValue.match(patternTD)){
+            console.log("[INFO] Step 4 : Retuned because it's not a TME/TD of a specific group")
             return true
+        }
         
         // If the current event is always valid
-        for (const validStr of alwaysValid) {
-            if (eventValue.includes(validStr))
-                return true
+        const stateAfter = checkValidity(eventValue, alwaysValidAfterCheck)
+        if (stateAfter){
+            console.log("[INFO] Step 5 : Returned because it's always valid after check")
+            return true
         }
     }
 
@@ -95,12 +122,14 @@ const parseICSFile = async (data,constraints,groups,offset) => {
         console.log("[INFO] Parsing data...")
         const parsedData = parseICS(data)
         const targetDate = new Date(); 
+
+        targetDate.setMonth(2)
         const oneWeek = 7
         // Set the time of the target date to midnight
         targetDate.setHours(0, 0, 0, 0);
         targetDate.setDate(targetDate.getDate()+offset);
+        console.log(targetDate)
         // Filter events for the target date
-
         const eventsForToday = parsedData.events.filter((event) => {
             // Get the start and end date of the event
             const eventStart = new Date(event.dtstart.value);
@@ -133,8 +162,8 @@ const parseICSFile = async (data,constraints,groups,offset) => {
                     currentEventStart.setDate(currentEventStart.getDate() + oneWeek);
                 }
                 return false
-            }            
-
+            }    
+            
             eventStart.setHours(event.dtstart.value.getUTCHours(), event.dtstart.value.getMinutes())
             eventEnd.setHours(event.dtend.value.getUTCHours(), event.dtend.value.getMinutes())
             event.dtstart.value = eventStart.toISOString();
@@ -142,11 +171,15 @@ const parseICSFile = async (data,constraints,groups,offset) => {
 
             return isSameDayAndMonthYear(eventStart, targetDate) && isAsked(event.summary.value,constraints,groups);
         });
+        
+        // console.log(eventsReturned)
         console.log("[INFO] Done!")
         // Sort events by start date
-        if (!(constraints && groups))
-            eventsForToday.sort((a,b)=>{return new Date(a.dtstart.value) - new Date(b.dtstart.value)})
+        // if (!(constraints && groups))
+        //     eventsForToday.sort((a,b)=>{return new Date(a.dtstart.value) - new Date(b.dtstart.value)})
+
         return [eventsForToday,SUCCESS];
+
     } catch (error) {
         console.error('[ERROR] Error while parsing the ICS file:', error);
         return [[],ERROR];

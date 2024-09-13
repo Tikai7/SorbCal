@@ -72,7 +72,17 @@ export default function AcceuilDrawer({}) {
                 
             }
             tempCalendar.sort((a,b)=>{return new Date(a.dtstart.value) - new Date(b.dtstart.value)})
-            setMyCalendar([...tempCalendar])
+
+            let uniqueEvents = [];
+            const filteredData = tempCalendar.filter(item => {
+                if (!uniqueEvents.includes(item.summary.value)) {
+                    uniqueEvents.push(item.summary.value);
+                    return true;
+                }
+                return false;
+            });
+
+            setMyCalendar([...filteredData])
             setLoading(false)
         }
 

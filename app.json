@@ -24,9 +24,10 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.tikai7.SorbCal",
-      "versionCode": 19
+      "versionCode": 20
     },
     "web": {
+      "bundler": "metro",
       "favicon": "./assets/favicon.png"
     },
     "extra": {

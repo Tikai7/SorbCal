@@ -90,7 +90,7 @@ export default function UEModal({handleCreate}){
                 <TDModal  falseLvl={falseLvl} handleCreate={handleCreate} handleReturn={handleNext} allUE={allUE} />
             </Modal>
             <View style={{...containerStyle.drawerButtonContainer,justifyContent:"center",marginTop:"5%"}}>
-                <Ionicons name="ios-school-outline" size={30} color={colorStyle.white} />
+                <Ionicons name="school-outline" size={30} color={colorStyle.white} />
                     <Text style={{
                         ...textStyle.subtitle,
                         color:colorStyle.white,

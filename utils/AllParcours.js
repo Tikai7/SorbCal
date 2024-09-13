@@ -1,13 +1,19 @@
 import { Dimensions } from "react-native"
 
 
-const S1_Date = new Date()
-S1_Date.setMonth(0)
-S1_Date.setDate(13)
+const S1_start_date = new Date()
+const S1_end_date = new Date()
+
+S1_start_date.setMonth(0)
+S1_start_date.setDate(13)
+
+S1_end_date.setMonth(6)
+S1_end_date.setDate(13)
+S1_end_date.setFullYear(S1_start_date.getFullYear()+1)
+
 const currentDate = new Date()
-
-const isS1 = currentDate.getMonth() < S1_Date.getMonth() || currentDate.getMonth() == S1_Date.getMonth() && currentDate.getDate() < S1_Date.getDate()
-
+// const isS1 = currentDate >= S1_start_date && currentDate <= S1_end_date
+const isS1 = false
 
 export const width = Dimensions.get("window").width
 export const height = Dimensions.get("window").height
