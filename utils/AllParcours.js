@@ -12,8 +12,7 @@ S1_end_date.setDate(13)
 S1_end_date.setFullYear(S1_start_date.getFullYear()+1)
 
 const currentDate = new Date()
-// const isS1 = currentDate >= S1_start_date && currentDate <= S1_end_date
-const isS1 = false
+const isS1 = currentDate >= S1_start_date && currentDate <= S1_end_date
 
 export const width = Dimensions.get("window").width
 export const height = Dimensions.get("window").height

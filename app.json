@@ -2,7 +2,7 @@
   "expo": {
     "name": "SorbCal",
     "slug": "Sorbonne",
-    "version": "8.0.0",
+    "version": "9.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -16,7 +16,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "buildNumber": "8.0.0"
+      "buildNumber": "9.0.0"
     },
     "android": {
       "adaptiveIcon": {
@@ -24,7 +24,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.tikai7.SorbCal",
-      "versionCode": 20
+      "versionCode": 22
     },
     "web": {
       "bundler": "metro",

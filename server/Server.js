@@ -122,8 +122,6 @@ const parseICSFile = async (data,constraints,groups,offset) => {
         console.log("[INFO] Parsing data...")
         const parsedData = parseICS(data)
         const targetDate = new Date(); 
-
-        targetDate.setMonth(2)
         const oneWeek = 7
         // Set the time of the target date to midnight
         targetDate.setHours(0, 0, 0, 0);
